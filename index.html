@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>紅茶媽媽 三重神農店</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="紅茶媽媽三重神農店，五谷王北街上的原葉茶飲。線上訂購、外送、公司下午茶團購。">
+<meta name="description" content="紅茶媽媽三重神農店，五谷王北街上的原葉茶飲。線上訂購、自取、外送。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&display=swap">
@@ -160,7 +160,7 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
 <div class="wrap" id="app">
   <div class="top">
     <span class="open" id="openState"><i></i><span></span></span>
-    <nav aria-label="頁面導覽"><a href="#news">公告</a><a href="#order">菜單訂購</a><a href="#delivery">外送團購</a><a href="#visit">門市資訊</a></nav>
+    <nav aria-label="頁面導覽"><a href="#news">公告</a><a href="#order">菜單訂購</a><a href="#delivery">外送</a><a href="#visit">門市資訊</a></nav>
   </div>
 
   <header class="hero">
@@ -196,7 +196,6 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
       <div class="chips">
         <label><input type="radio" name="mode" id="modePickup" value="自取" checked><span>到店自取</span></label>
         <label><input type="radio" name="mode" id="modeDelivery" value="外送"><span>外送</span></label>
-        <label><input type="radio" name="mode" id="modeGroup" value="團購"><span>公司下午茶團購</span></label>
       </div>
       <div class="hint" id="modeHint"></div>
 
@@ -225,7 +224,7 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
   </section>
 
   <section id="delivery">
-    <div class="sec-h"><h2>外送與團購</h2><span>Delivery</span></div>
+    <div class="sec-h"><h2>外送</h2><span>Delivery</span></div>
     <div class="rules" id="rules"></div>
   </section>
 
@@ -301,7 +300,6 @@ function renderStatic(){
   var dl = S.delivery, p = S.preorder;
   $('rules').innerHTML = [
     ['外送', dl.baseKm + ' 公里內滿 $' + dl.baseMin + ' 外送，每多 1 公里低消加 $' + dl.stepPerKm + '。超過 ' + dl.maxKm + ' 公里，建議來電確認（' + S.phone + '）。'],
-    ['下午茶', '公司、工廠團購，' + S.groupLatest + ' 前送達。週一、週四只營業到下午兩點，請提早預訂。'],
     ['預購', '前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯，整筆打 9 折，網站下單自動計算。'],
     ['自取', '不限杯數，選好時間到店直接取。']
   ].map(function(r){ return '<div class="rule"><b>' + r[0] + '</b><div>' + esc(r[1]) + '</div></div>'; }).join('');
@@ -532,7 +530,7 @@ function renderTimes(){
 function renderMode(){
   var m = mode(), d = S.delivery;
   $('deliveryFields').hidden = m === '自取';
-  $('companyField').hidden = m !== '團購';
+  $('companyField').hidden = m !== '外送';
   $('modeHint').textContent = m === '自取' ? '到店自取不限杯數。'
     : m === '外送' ? d.baseKm + ' 公里內滿 $' + d.baseMin + '，每多 1 公里低消加 $' + d.stepPerKm + '；超過 ' + d.maxKm + ' 公里，建議來電確認。'
     : S.groupLatest + ' 前送達，低消一樣依距離計算。';
@@ -563,7 +561,7 @@ function collect(){
     promo: deal ? deal.title : '', promoDetail: deal ? deal.detail : [], code: $('code').value.trim().toUpperCase(),
     items: cart.map(function(l){ return { name: l.name, opts: l.opts, qty: l.qty, unit: unitOfLine(l) }; }),
     dist: m==='自取' ? '' : $('dist').options[$('dist').selectedIndex].text.replace(/（.*$/,''),
-    company: m==='團購' ? $('company').value.trim() : '', addr: m==='自取' ? '' : $('addr').value.trim(),
+    company: m==='外送' ? $('company').value.trim() : '', addr: m==='自取' ? '' : $('addr').value.trim(),
     name: $('name').value.trim(), mobile: $('tel').value.trim(), landline: $('tel2').value.trim(),
     day: $('day').value, dayLabel: $('day').value ? $('day').options[$('day').selectedIndex].text : '', time: $('time').value,
     note: $('note').value.trim(), website: $('website').value };
