@@ -202,13 +202,13 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
 
       <div id="deliveryFields" hidden>
         <div class="field"><label for="dist">離店裡多遠</label><select id="dist"></select></div>
-        <div class="field" id="companyField" hidden><label for="company">公司／單位名稱（必填）</label><input id="company" autocomplete="organization"></div>
+        <div class="field" id="companyField" hidden><label for="company">公司／單位名稱（選填）</label><input id="company" autocomplete="organization"></div>
         <div class="field"><label for="addr">外送地址（必填）</label><input id="addr" required autocomplete="street-address" placeholder="例：三重區五谷王北街○○號 3 樓"></div>
       </div>
       <div class="field"><label for="name">姓名</label><input id="name" autocomplete="name"></div>
       <div class="row2">
-        <div class="field"><label for="tel">手機</label><input id="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="09xx-xxx-xxx"></div>
-        <div class="field"><label for="tel2">市話（含分機）</label><input id="tel2" type="tel" inputmode="tel" placeholder="02-xxxx-xxxx"></div>
+        <div class="field"><label for="tel">手機（二擇一）</label><input id="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="09xx-xxx-xxx"></div>
+        <div class="field"><label for="tel2">市話（二擇一）</label><input id="tel2" type="tel" inputmode="tel" placeholder="02-xxxx-xxxx #分機"></div>
       </div>
       <p class="hint" style="margin:-4px 0 12px">手機、市話擇一填寫即可，公司訂購可以留公司電話。</p>
       <div class="row2">
@@ -558,7 +558,6 @@ function validate(o){
   if (!o.day || !o.time) return '這幾天沒有可預訂的時段，請直接打訂購專線。';
   if (o.mode !== '自取' && !o.addr){ $('addr').focus(); return '外送要填地址。'; }
   if (o.mode !== '自取' && (o.addr.length < 6 || !/\d/.test(o.addr))) { $('addr').focus(); return '外送地址請寫完整，要有路名和門牌號碼。'; }
-  if (o.mode === '團購' && !o.company) return '團購請填公司或單位名稱。';
   return '';
 }
 function orderText(o, no){
