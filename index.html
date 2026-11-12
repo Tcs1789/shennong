@@ -300,7 +300,7 @@ function renderStatic(){
   }).join('');
   var dl = S.delivery, p = S.preorder;
   $('rules').innerHTML = [
-    ['外送', dl.baseKm + ' 公里內滿 $' + dl.baseMin + ' 外送，每多 1 公里低消加 $' + dl.stepPerKm + '。超過 ' + dl.maxKm + ' 公里也能訂，滿 $' + (dl.baseMin + (dl.maxKm+1-dl.baseKm)*dl.stepPerKm) + ' 即可，店家會先來電確認送達時間。'],
+    ['外送', dl.baseKm + ' 公里內滿 $' + dl.baseMin + ' 外送，每多 1 公里低消加 $' + dl.stepPerKm + '。超過 ' + dl.maxKm + ' 公里，建議來電確認（' + S.phone + '）。'],
     ['下午茶', '公司、工廠團購，' + S.groupLatest + ' 前送達。週一、週四只營業到下午兩點，請提早預訂。'],
     ['預購', '前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯，整筆打 9 折，網站下單自動計算。'],
     ['自取', '不限杯數，選好時間到店直接取。']
@@ -499,7 +499,7 @@ function renderDist(){
   var d = S.delivery, o = '';
   for (var km = d.baseKm; km <= d.maxKm + 1; km++){
     var far = km > d.maxKm;
-    o += '<option value="' + km + '">' + (far ? d.maxKm + ' 公里以上' : km===d.baseKm ? d.baseKm + ' 公里內' : (km-1) + '–' + km + ' 公里') + '（滿 $' + (d.baseMin + (km-d.baseKm)*d.stepPerKm) + (far ? '，店家來電確認' : '') + '）</option>';
+    o += '<option value="' + km + '">' + (far ? d.maxKm + ' 公里以上' : km===d.baseKm ? d.baseKm + ' 公里內' : (km-1) + '–' + km + ' 公里') + '（滿 $' + (d.baseMin + (km-d.baseKm)*d.stepPerKm) + (far ? '，建議來電確認' : '') + '）</option>';
   }
   $('dist').innerHTML = o;
 }
@@ -533,7 +533,7 @@ function renderMode(){
   $('deliveryFields').hidden = m === '自取';
   $('companyField').hidden = m !== '團購';
   $('modeHint').textContent = m === '自取' ? '到店自取不限杯數。'
-    : m === '外送' ? d.baseKm + ' 公里內滿 $' + d.baseMin + '，每多 1 公里低消加 $' + d.stepPerKm + '；超過 ' + d.maxKm + ' 公里也能訂，店家會先來電確認。'
+    : m === '外送' ? d.baseKm + ' 公里內滿 $' + d.baseMin + '，每多 1 公里低消加 $' + d.stepPerKm + '；超過 ' + d.maxKm + ' 公里，建議來電確認。'
     : S.groupLatest + ' 前送達，低消一樣依距離計算。';
   renderDays();
 }
