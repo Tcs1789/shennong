@@ -321,7 +321,7 @@ function renderStatic(){
   var shown = {}, banners = [], b0 = new Date();
   for (var k = 0; k <= S.daysAhead; k++){
     var ds = ymd(new Date(b0.getFullYear(), b0.getMonth(), b0.getDate()+k));
-    activePromos(ds).forEach(function(pr){ if (!shown[pr.title] && pr.type !== 'code'){ shown[pr.title] = 1; banners.push(pr); } });
+    activePromos(ds).forEach(function(pr){ if (!shown[pr.title] && pr.type !== 'code' && !(pr.type === 'item-price' && k > 0)){ shown[pr.title] = 1; banners.push(pr); } });
   }
   $('promos').innerHTML = banners.map(function(pr){
     var when = pr.days ? T('每週', 'Every ') + pr.days.map(function(x){ return wd(x); }).join(T('、', ' & ')) : '';
