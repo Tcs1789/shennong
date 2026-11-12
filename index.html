@@ -557,7 +557,6 @@ function validate(o){
   o.tel = [o.mobile, o.landline].filter(Boolean).join(' ／ ');
   if (!o.day || !o.time) return '這幾天沒有可預訂的時段，請直接打訂購專線。';
   if (o.mode !== '自取' && !o.addr){ $('addr').focus(); return '外送要填地址。'; }
-  if (o.mode !== '自取' && (o.addr.length < 6 || !/\d/.test(o.addr))) { $('addr').focus(); return '外送地址請寫完整，要有路名和門牌號碼。'; }
   return '';
 }
 function orderText(o, no){
