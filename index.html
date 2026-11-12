@@ -500,7 +500,7 @@ function renderDist(){
   var d = S.delivery, o = '';
   for (var km = d.baseKm; km <= d.maxKm + 1; km++){
     var far = km > d.maxKm;
-    o += '<option value="' + km + '">' + (far ? d.maxKm + ' 公里以上' : km===d.baseKm ? d.baseKm + ' 公里內' : (km-1) + '–' + km + ' 公里') + '（' + (far ? '不限金額，建議來電確認' : '滿 $' + (d.baseMin + (km-d.baseKm)*d.stepPerKm)) + '）</option>';
+    o += '<option value="' + km + '">' + (far ? d.maxKm + ' 公里以上' : km===d.baseKm ? d.baseKm + ' 公里內' : (km-1) + '–' + km + ' 公里') + '（' + (far ? '建議來電確認' : '滿 $' + (d.baseMin + (km-d.baseKm)*d.stepPerKm)) + '）</option>';
   }
   $('dist').innerHTML = o;
 }
