@@ -313,7 +313,8 @@ function renderStatic(){
   $('openState').classList.toggle('on', !!on);
   $('openState').lastChild.textContent = on ? T('營業中・今天到 ', 'Open now · until ') + h[1] : h ? T('今天 ', 'Today ') + h[0] + '–' + h[1] : T('今天公休', 'Closed today');
 
-  $('newsList').innerHTML = S.news.slice(0,4).map(function(n){
+  var td = ymd(new Date());
+  $('newsList').innerHTML = S.news.filter(function(n){ return n.date <= td && (!n.until || td <= n.until); }).slice(0,4).map(function(n){
     var dt = new Date(n.date + 'T00:00:00');
     return '<li><time class="num" datetime="' + n.date + '">' + (dt.getMonth()+1) + '.' + String(dt.getDate()).padStart(2,'0') + '</time><div>' + esc(EN() && n.en || n.text) + '</div></li>';
   }).join('');
