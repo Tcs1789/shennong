@@ -43,7 +43,7 @@ function submitOrder(o) {
     var notified = pushLine_(formatOrder_(o, orderNo));
 
     sheet.appendRow([orderNo, now, o.mode, o.day, o.time, o.name, "'" + o.tel, o.company, o.addr, o.dist,
-                     itemsTxt, cups, o.total, (o.discount ? (o.promo || '優惠') + ' −' + o.discount + '　' : '') + (o.code ? '碼:' + o.code + '　' : '') + (o.note || ''), notified ? '已通知' : '未通知', '']);
+                     itemsTxt, cups, o.total, (o.discount ? (o.promo || '優惠') + ' −' + o.discount + '　' : '') + (o.code ? '碼:' + o.code + '　' : '') + (Number(o.bags) > 0 ? '塑膠袋×' + Number(o.bags) + '　' : '') + (o.note || ''), notified ? '已通知' : '未通知', '']);
     return { ok: true, orderNo: orderNo, notified: notified };
   } finally {
     lock.releaseLock();
@@ -60,7 +60,9 @@ function checkOrder_(o) {
     return s + Math.max(0, Number(l.unit) || 0) * Math.max(0, Math.min(99, Number(l.qty) || 0));
   }, 0);
   var disc = Number(o.discount) || 0;
-  if (sum !== Number(o.subtotal) || disc < 0 || disc > Math.floor(sum / 2) || sum - disc !== Number(o.total))
+  var bags = Math.max(0, Math.min(99, Math.floor(Number(o.bags) || 0)));
+  if (Number(o.bagFee || 0) !== bags) return '塑膠袋金額有誤，請重新整理網頁再下單';
+  if (sum !== Number(o.subtotal) || disc < 0 || disc > Math.floor(sum / 2) || sum - disc + bags !== Number(o.total))
     return '金額計算有誤，請重新整理網頁再下單';
   return '';
 }
@@ -72,9 +74,10 @@ function formatOrder_(o, no) {
   if (o.addr) L.push('地址：' + o.addr + '（' + o.dist + '）');
   L.push('────────');
   o.items.forEach(function (l) { L.push(l.name + ' ×' + l.qty + '\n　' + l.opts + '\n　單價 $' + l.unit + ' × ' + l.qty + ' = $' + l.unit * l.qty); });
+  if (Number(o.bags) > 0) L.push('塑膠袋 ×' + Number(o.bags) + '　$' + Number(o.bagFee));
   L.push('────────');
   if (o.discount) {
-    L.push('小計 $' + o.subtotal, '優惠：' + (o.promo || '優惠') + '　−$' + o.discount);
+    L.push('飲料小計 $' + o.subtotal, '優惠：' + (o.promo || '優惠') + '　−$' + o.discount);
     (Array.isArray(o.promoDetail) ? o.promoDetail : []).slice(0, 30).forEach(function (d) { L.push('　' + String(d).slice(0, 80)); });
   }
   if (o.code) L.push('優惠碼：' + o.code);

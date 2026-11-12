@@ -217,6 +217,7 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
       </div>
       <div class="field"><label for="code">優惠碼（選填）</label><input id="code" autocomplete="off" autocapitalize="characters"></div>
       <div class="field"><label for="note">備註（選填）</label><textarea id="note" rows="2" placeholder="例：分兩袋裝、到了打電話"></textarea></div>
+      <div class="field"><label for="bags">塑膠袋（$1／個，不需要填 0）</label><div class="qty"><button type="button" id="bMinus" aria-label="減少">−</button><input id="bags" type="number" inputmode="numeric" min="0" max="99" value="0" aria-label="塑膠袋數量"><button type="button" id="bPlus" aria-label="增加">+</button></div></div>
       <input class="hp" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="hint err" id="formErr" hidden></div>
       <div class="demo" id="demoNote" hidden>目前是預覽模式，送出的訂單不會傳到店裡。</div>
@@ -459,7 +460,10 @@ function preorderOk(){
   return new Date() < cut;
 }
 function discount(){ var d = bestDeal(); return d ? d.off : 0; }
-function total(){ return subtotal() - discount(); }
+function bags(){ var n = parseInt(($('bags') || {}).value, 10); return n > 0 ? Math.min(99, n) : 0; }
+function bagFee(){ return bags() * 1; }
+function drinksTotal(){ return subtotal() - discount(); }
+function total(){ return drinksTotal() + bagFee(); }
 function minOrder(){
   if (mode() === '自取') return 0;
   var km = +$('dist').value || S.delivery.baseKm;
@@ -475,10 +479,14 @@ function renderLines(){
       '<div class="p">' + money(unitOfLine(l)*l.qty) + '</div><button type="button" class="x" data-i="' + i + '">移除</button></div>';
   }).join('') +
   (discount() ? '<div class="li"><div class="d">優惠：' + esc(bestDeal().title) + '<div class="o">' + bestDeal().detail.map(esc).join('<br>') + '</div></div><div class="p">−' + money(discount()) + '</div></div>' : '') +
+  (bags() ? '<div class="li"><div class="d">塑膠袋 ×' + bags() + '</div><div class="p">' + money(bagFee()) + '</div></div>' : '') +
   '<div class="li"><div class="d"><b>共 ' + cups() + ' 杯</b></div><div class="p"><b>' + money(total()) + '</b></div></div>' +
   (discount() ? '<div class="hint">整筆優惠擇一，已自動幫你選最划算的。</div>' : '') +
   (!discount() ? '<div class="hint">前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯打 9 折' + (cups() >= p.cups ? '，日期選明天以後就有折扣。' : '。') + '</div>' : '');
 }
+$('bags').addEventListener('input', refresh);
+$('bMinus').addEventListener('click', function(){ $('bags').value = Math.max(0, bags()-1); refresh(); });
+$('bPlus').addEventListener('click', function(){ $('bags').value = Math.min(99, bags()+1); refresh(); });
 $('lines').addEventListener('change', function(e){
   var q = e.target.closest('.lq'); if (!q) return;
   var n = parseInt(q.value, 10), i = +q.dataset.i;
@@ -535,9 +543,9 @@ $('code').addEventListener('input', refresh);
 
 function refresh(){
   renderMenu(); renderLines();
-  var t = total(), min = minOrder();
+  var t = drinksTotal(), min = minOrder();
   $('bar').hidden = !cart.length;
-  $('tot').textContent = money(t);
+  $('tot').textContent = money(total());
   $('meter').hidden = !min;
   $('meterFill').style.width = min ? Math.min(100, t/min*100) + '%' : '0';
   $('need').textContent = min && t < min ? '外送還差 ' + money(min - t) : cups() + ' 杯・' + mode();
@@ -549,6 +557,7 @@ function collect(){
   var m = mode();
   var deal = bestDeal();
   return { type: 'order', mode: m, subtotal: subtotal(), discount: discount(), total: total(),
+    bags: bags(), bagFee: bagFee(),
     promo: deal ? deal.title : '', promoDetail: deal ? deal.detail : [], code: $('code').value.trim().toUpperCase(),
     items: cart.map(function(l){ return { name: l.name, opts: l.opts, qty: l.qty, unit: unitOfLine(l) }; }),
     dist: m==='自取' ? '' : $('dist').options[$('dist').selectedIndex].text.replace(/（.*$/,''),
@@ -575,9 +584,10 @@ function orderText(o, no){
   if (o.addr) L.push('地址：' + o.addr + '（' + o.dist + '）');
   L.push('—');
   o.items.forEach(function(l){ L.push(l.name + '　' + l.opts, '　單價 $' + l.unit + ' × ' + l.qty + ' 杯 = $' + l.unit*l.qty); });
+  if (o.bags) L.push('塑膠袋 ×' + o.bags + '　$' + o.bagFee);
   L.push('—');
   if (o.discount){
-    L.push('小計 $' + o.subtotal, '優惠：' + o.promo + '　−$' + o.discount);
+    L.push('飲料小計 $' + o.subtotal, '優惠：' + o.promo + '　−$' + o.discount);
     (o.promoDetail || []).forEach(function(d){ L.push('　' + d); });
   }
   L.push('共 ' + o.items.reduce(function(s,l){ return s+l.qty; },0) + ' 杯，合計 $' + o.total);
