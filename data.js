@@ -6,7 +6,7 @@ window.SITE = {
   storeName: '紅茶媽媽',
   branch: '三重神農店',
   tagline: ['安靜的街上', '一杯原葉茶'],   // 首頁直書的兩行字
-  intro: '五谷王北街上，還沒被熱鬧找到的一段。用好茶葉煮茶，用好糖調味，簡單的事認真做。路過的時候帶一杯走，忙的時候，我們送過去。',
+  intro: '五谷王北街上，還沒被熱鬧找到的一段。路過的時候帶一杯走，忙的時候，我們送過去。',
   address: '新北市三重區五谷王北街45巷19號',
   mapUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('新北市三重區五谷王北街45巷19號'),
   phone: '0987-590818',
