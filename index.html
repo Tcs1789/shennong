@@ -202,8 +202,8 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
 
       <div id="deliveryFields" hidden>
         <div class="field"><label for="dist">離店裡多遠</label><select id="dist"></select></div>
-        <div class="field" id="companyField" hidden><label for="company">公司／單位名稱</label><input id="company" autocomplete="organization"></div>
-        <div class="field"><label for="addr">外送地址</label><input id="addr" autocomplete="street-address" placeholder="例：三重區五谷王北街○○號 3 樓"></div>
+        <div class="field" id="companyField" hidden><label for="company">公司／單位名稱（必填）</label><input id="company" autocomplete="organization"></div>
+        <div class="field"><label for="addr">外送地址（必填）</label><input id="addr" required autocomplete="street-address" placeholder="例：三重區五谷王北街○○號 3 樓"></div>
       </div>
       <div class="field"><label for="name">姓名</label><input id="name" autocomplete="name"></div>
       <div class="row2">
@@ -556,7 +556,8 @@ function validate(o){
   if (o.landline && !/^0\d{7,9}$/.test(o.landline.split(/#|分機|轉|ext/i)[0].replace(/[\s\-()（）]/g,''))) return '市話格式不對，請加上區碼，例：02-2xxx-xxxx #123。';
   o.tel = [o.mobile, o.landline].filter(Boolean).join(' ／ ');
   if (!o.day || !o.time) return '這幾天沒有可預訂的時段，請直接打訂購專線。';
-  if (o.mode !== '自取' && !o.addr) return '外送要填地址。';
+  if (o.mode !== '自取' && !o.addr){ $('addr').focus(); return '外送要填地址。'; }
+  if (o.mode !== '自取' && (o.addr.length < 6 || !/\d/.test(o.addr))) { $('addr').focus(); return '外送地址請寫完整，要有路名和門牌號碼。'; }
   if (o.mode === '團購' && !o.company) return '團購請填公司或單位名稱。';
   return '';
 }
