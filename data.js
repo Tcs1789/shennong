@@ -25,11 +25,10 @@ window.SITE = {
   // 公告：最新的放最上面，最多顯示 4 則
   // 日期還沒到的公告不會顯示，到了當天自動出現
   news: [
-    // 春節公休公告：開工日確定後，在 until 填開工前一天，並把 text 改成開工日期
-    { date: '2027-02-04', text: '春節公休中，開工日另行公告。祝大家新年快樂。',
-      en: 'Closed for the Lunar New Year. We will announce our reopening date soon. Happy New Year!' },
-    { date: '2027-01-29', until: '2027-02-03', text: '週年慶最後一段：1/30–2/3 原茶買一送一。2/3（三）是年前最後營業日，春節公休，開工日另行公告。',
-      en: 'Anniversary, final part: Jan 30–Feb 3, pure tea buy one get one free. Feb 3 is our last day before the Lunar New Year break.' },
+    { date: '2027-02-04', until: '2027-02-10', text: '春節公休 2/4（四）–2/10（三），2/11（四）恢復營業。祝大家新年快樂。',
+      en: 'Closed Feb 4–10 for the Lunar New Year. Back on Feb 11 (Thu). Happy New Year!' },
+    { date: '2027-01-29', until: '2027-02-03', text: '週年慶最後一段：1/30–2/3 原茶買一送一。2/3（三）是年前最後營業日，春節公休到 2/10，2/11（四）恢復營業。',
+      en: 'Anniversary, final part: Jan 30–Feb 3, pure tea buy one get one free. Feb 3 is our last day before the Lunar New Year break; back on Feb 11.' },
     { date: '2027-01-15', until: '2027-01-29', text: '週年慶第三段：1/18–1/29 前一天 18:00 前預購滿 10 杯，整筆 85 折。',
       en: 'Anniversary, part three: Jan 18–29, order 10+ cups by 6 PM the day before for 15% off.' },
     { date: '2027-01-03', until: '2027-01-16', text: '週年慶第二段：1/4–1/16 鮮奶茶第二杯半價，可混搭，每單最多 5 杯半價。',
@@ -57,7 +56,7 @@ window.SITE = {
   // 公休日：網站不能選這些天取貨／外送。單一天寫日期；連續幾天寫 { start, end }，end 空著表示「還沒決定哪天開工」
   closed: [
     '2027-01-01',
-    { start: '2027-02-04', end: '' },   // 春節公休，開工日確定後填 end（例：'2027-02-10'）
+    { start: '2027-02-04', end: '2027-02-10' },   // 春節公休，2/11 恢復營業
   ],
 
   preorder: { cups: 10, cutoff: '18:00', rate: 0.9 },              // 前一天 18:00 前預購滿 10 杯打 9 折
