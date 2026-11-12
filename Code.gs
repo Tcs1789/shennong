@@ -54,7 +54,7 @@ function checkOrder_(o) {
   if (!o.items || !o.items.length) return '沒有品項';
   if (o.items.length > 60) return '品項太多，請直接打電話訂購';
   if (!o.name || !o.tel) return '請填姓名和電話';
-  if (!/^0\d[\d\- ]{7,12}$/.test(o.tel)) return '電話格式不對';
+  if (String(o.tel).length > 60 || String(o.tel).replace(/\D/g, '').length < 8) return '電話格式不對';
   if (o.mode !== '自取' && !o.addr) return '外送要填地址';
   var sum = o.items.reduce(function (s, l) {
     return s + Math.max(0, Number(l.unit) || 0) * Math.max(0, Math.min(99, Number(l.qty) || 0));

@@ -203,10 +203,12 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
         <div class="field" id="companyField" hidden><label for="company">公司／單位名稱</label><input id="company" autocomplete="organization"></div>
         <div class="field"><label for="addr">外送地址</label><input id="addr" autocomplete="street-address" placeholder="例：三重區五谷王北街○○號 3 樓"></div>
       </div>
+      <div class="field"><label for="name">姓名</label><input id="name" autocomplete="name"></div>
       <div class="row2">
-        <div class="field"><label for="name">姓名</label><input id="name" autocomplete="name"></div>
         <div class="field"><label for="tel">手機</label><input id="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="09xx-xxx-xxx"></div>
+        <div class="field"><label for="tel2">市話（含分機）</label><input id="tel2" type="tel" inputmode="tel" placeholder="02-xxxx-xxxx"></div>
       </div>
+      <p class="hint" style="margin:-4px 0 12px">手機、市話擇一填寫即可，公司訂購可以留公司電話。</p>
       <div class="row2">
         <div class="field"><label for="day">日期</label><select id="day"></select></div>
         <div class="field"><label for="time">時間</label><select id="time"></select></div>
@@ -532,14 +534,17 @@ function collect(){
     items: cart.map(function(l){ return { name: l.name, opts: l.opts, qty: l.qty, unit: unitOfLine(l) }; }),
     dist: m==='自取' ? '' : $('dist').options[$('dist').selectedIndex].text.replace(/（.*$/,''),
     company: m==='團購' ? $('company').value.trim() : '', addr: m==='自取' ? '' : $('addr').value.trim(),
-    name: $('name').value.trim(), tel: $('tel').value.trim(),
+    name: $('name').value.trim(), mobile: $('tel').value.trim(), landline: $('tel2').value.trim(),
     day: $('day').value, dayLabel: $('day').value ? $('day').options[$('day').selectedIndex].text : '', time: $('time').value,
     note: $('note').value.trim(), website: $('website').value };
 }
 function validate(o){
   if (!o.items.length) return '還沒有選飲料。';
   if (!o.name) return '請填姓名。';
-  if (!/^0\d[\d\- ]{7,12}$/.test(o.tel)) return '手機號碼格式不對，請再確認一次。';
+  if (!o.mobile && !o.landline) return '請留一支電話，手機或市話都可以。';
+  if (o.mobile && !/^09\d{8}$/.test(o.mobile.replace(/[\s\-]/g,''))) return '手機號碼格式不對，請再確認一次（09 開頭共 10 碼）。';
+  if (o.landline && !/^0\d{7,9}$/.test(o.landline.split(/#|分機|轉|ext/i)[0].replace(/[\s\-()（）]/g,''))) return '市話格式不對，請加上區碼，例：02-2xxx-xxxx #123。';
+  o.tel = [o.mobile, o.landline].filter(Boolean).join(' ／ ');
   if (!o.day || !o.time) return '這幾天沒有可預訂的時段，請直接打訂購專線。';
   if (o.mode !== '自取' && !o.addr) return '外送要填地址。';
   if (o.mode === '團購' && !o.company) return '團購請填公司或單位名稱。';
