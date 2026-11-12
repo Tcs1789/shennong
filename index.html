@@ -138,7 +138,9 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
 .sheet h3{font-family:var(--serif);font-size:22px;margin:0;letter-spacing:.08em}
 .qty{display:flex;align-items:center;gap:16px}
 .qty button{width:34px;height:34px;border-radius:50%;border:1px solid var(--rule);background:none;font-size:18px;cursor:pointer}
-.qty b{font-family:var(--serif);font-size:20px;min-width:2ch;text-align:center}
+.qty input{font-family:var(--serif);font-size:20px;width:3.2em;text-align:center;padding:4px;border:1px solid var(--rule);border-radius:6px;background:transparent;color:inherit}
+.li .lq{width:3.4em;font-size:14px;padding:2px 4px;margin-left:4px;border:1px solid var(--rule);border-radius:4px;background:transparent;color:inherit;text-align:center}
+.confirm pre{white-space:pre-wrap;font-size:14px;line-height:1.7;background:var(--bg);border:1px solid var(--rule);padding:12px;border-radius:6px}
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--sheet);border-top:1px solid var(--rule);
   padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .bar-in{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:14px}
@@ -364,13 +366,15 @@ function openSheet(it){
     (it.fixed ? '<div class="lbl">甜度：固定甜度</div>' : '<div class="lbl">甜度</div>' + chips('o_sugar', S.sugar, 0)) +
     '<div class="lbl">冰塊</div>' + chips('o_ice', S.ice, 0) +
     '<div class="lbl">加料</div>' + chips('o_top', S.toppings, -1, true) +
-    '<div class="lbl">數量</div><div class="qty"><button type="button" id="qMinus" aria-label="減少">−</button><b id="qNum">1</b><button type="button" id="qPlus" aria-label="增加">+</button></div>' +
+    '<div class="lbl">數量</div><div class="qty"><button type="button" id="qMinus" aria-label="減少">−</button><input id="qNum" type="number" inputmode="numeric" min="1" max="99" value="1" aria-label="數量"><button type="button" id="qPlus" aria-label="增加">+</button></div>' +
     '<div style="display:flex;gap:10px;margin-top:22px"><button type="button" class="btn ghost" id="sheetCancel" style="flex:1">取消</button>' +
     '<button type="button" class="btn leaf" id="sheetAdd" style="flex:2"></button></div>';
   $('mask').hidden = false; $('sheet').hidden = false;
   $('sheetBody').onchange = updSheet;
   $('qMinus').onclick = function(){ curQty = Math.max(1, curQty-1); updSheet(); };
   $('qPlus').onclick = function(){ curQty = Math.min(99, curQty+1); updSheet(); };
+  $('qNum').oninput = function(){ var n = parseInt(this.value, 10); if (n >= 1){ curQty = Math.min(99, n); updSheet(true); } };
+  $('qNum').onblur = function(){ updSheet(); };
   $('sheetCancel').onclick = closeSheet;
   $('sheetAdd').onclick = addCur;
   updSheet(); $('sheetAdd').focus();
@@ -381,7 +385,7 @@ function unitOf(){
   var topSum = tops.reduce(function(s,t){ return s+t.price; },0);
   return { size: cur.price.length>1 ? S.sizes[si] : '', tops: tops, base: cur.price[si], topSum: topSum, unit: salePrice(cur.name, cur.price[si], orderDay()) + topSum };
 }
-function updSheet(){ $('qNum').textContent = curQty; $('sheetAdd').textContent = '加入訂單 ' + money(unitOf().unit * curQty); }
+function updSheet(typing){ if (typing !== true) $('qNum').value = curQty; $('sheetAdd').textContent = '加入訂單 ' + money(unitOf().unit * curQty); }
 function addCur(){
   var u = unitOf();
   var sugar = cur.fixed ? '固定甜度' : S.sugar[+document.querySelector('input[name=o_sugar]:checked').value];
@@ -458,7 +462,7 @@ function renderLines(){
   if (!cart.length){ $('lines').innerHTML = '<div class="empty">還沒有飲料。點上面的品項加入。</div>'; return; }
   var p = S.preorder;
   $('lines').innerHTML = cart.map(function(l,i){
-    return '<div class="li"><div class="d">' + esc(l.name) + ' ×' + l.qty + '<div class="o">' + esc(l.opts) + '</div></div>' +
+    return '<div class="li"><div class="d">' + esc(l.name) + ' ×<input class="lq" type="number" inputmode="numeric" min="0" max="99" value="' + l.qty + '" data-i="' + i + '" aria-label="' + esc(l.name) + ' 數量">' + '<div class="o">' + esc(l.opts) + '</div></div>' +
       '<div class="p">' + money(unitOfLine(l)*l.qty) + '</div><button type="button" class="x" data-i="' + i + '">移除</button></div>';
   }).join('') +
   (discount() ? '<div class="li"><div class="d">優惠：' + esc(bestDeal().title) + '</div><div class="p">−' + money(discount()) + '</div></div>' : '') +
@@ -466,6 +470,12 @@ function renderLines(){
   (discount() ? '<div class="hint">整筆優惠擇一，已自動幫你選最划算的。</div>' : '') +
   (!discount() ? '<div class="hint">前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯打 9 折' + (cups() >= p.cups ? '，日期選明天以後就有折扣。' : '。') + '</div>' : '');
 }
+$('lines').addEventListener('change', function(e){
+  var q = e.target.closest('.lq'); if (!q) return;
+  var n = parseInt(q.value, 10), i = +q.dataset.i;
+  if (!(n > 0)) cart.splice(i, 1); else cart[i].qty = Math.min(99, n);
+  refresh();
+});
 $('lines').addEventListener('click', function(e){ var b = e.target.closest('.x'); if (b){ cart.splice(+b.dataset.i,1); refresh(); } });
 
 function renderDist(){
@@ -567,6 +577,17 @@ $('submitBtn').addEventListener('click', function(){
   var o = collect(), err = validate(o);
   $('formErr').hidden = !err; $('formErr').textContent = err;
   if (err){ $('formErr').scrollIntoView({block:'center'}); return; }
+  $('sheetBody').innerHTML = '<div class="confirm"><h3 id="sheetTitle">請確認訂單</h3>' +
+    '<p class="hint" style="margin:0 0 10px">杯數、甜度冰塊、時間和電話都對了再送出。</p><pre>' + esc(orderText(o)) + '</pre>' +
+    '<div style="display:flex;gap:10px;margin-top:16px"><button type="button" class="btn ghost" id="cfBack" style="flex:1">返回修改</button>' +
+    '<button type="button" class="btn leaf" id="cfGo" style="flex:2">確認送出</button></div></div>';
+  $('sheetBody').onchange = null;
+  $('mask').hidden = false; $('sheet').hidden = false;
+  $('cfBack').onclick = closeSheet;
+  $('cfGo').onclick = function(){ closeSheet(); sendOrder(o); };
+  $('cfGo').focus();
+});
+function sendOrder(o){
   var btn = $('submitBtn'); btn.disabled = true; btn.textContent = '送出中…';
   var fail = function(msg){
     btn.disabled = false; btn.textContent = '送出訂單';
@@ -579,7 +600,7 @@ $('submitBtn').addEventListener('click', function(){
     .then(function(r){ return r.json(); })
     .then(function(r){ r && r.ok ? showDone(o, r) : fail(r && r.error); })
     .catch(function(){ fail(); });
-});
+}
 function showDone(o, r){
   var text = orderText(o, r.orderNo);
   $('bar').hidden = true;
