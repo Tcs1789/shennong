@@ -6,6 +6,12 @@ window.SITE = {
   storeName: '紅茶媽媽',
   branch: '三重神農店',
   tagline: ['安靜的街上', '一杯原葉茶'],   // 首頁直書的兩行字
+  // 英文版（網站右上角切換 EN 時顯示）
+  storeNameEn: 'Ma Ma Tea',
+  branchEn: 'Sanchong Shennong',
+  taglineEn: ['On a quiet street,', 'a cup of real tea'],
+  introEn: 'A quiet stretch of Wuguwang N. St. that the crowds haven\'t found yet. Grab a cup on your way by — or if you\'re busy, we\'ll bring it to you.',
+  addressEn: 'No. 19, Ln. 45, Wuguwang N. St., Sanchong Dist., New Taipei City',
   intro: '五谷王北街上，還沒被熱鬧找到的一段。路過的時候帶一杯走，忙的時候，我們送過去。',
   address: '新北市三重區五谷王北街45巷19號',
   mapUrl: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('新北市三重區五谷王北街45巷19號'),
@@ -18,9 +24,12 @@ window.SITE = {
 
   // 公告：最新的放最上面，最多顯示 4 則
   news: [
-    { date: '2026-11-12', text: '週一、週四第二杯半價，活動到 12/31：同一筆訂單每兩杯，較便宜的那杯半價。' },
-    { date: '2026-10-28', text: '開放線上訂購：自取、外送都能在網站上下單。' },
-    { date: '2026-10-28', text: '前一天 18:00 前預購滿 10 杯，整筆打 9 折。' },
+    { date: '2026-11-12', text: '週一、週四第二杯半價，活動到 12/31：同一筆訂單每兩杯，較便宜的那杯半價。',
+      en: 'Mon & Thu: 2nd cup half price until 12/31. In each order, every second (cheaper) cup is half price.' },
+    { date: '2026-10-28', text: '開放線上訂購：自取、外送都能在網站上下單。',
+      en: 'Online ordering is open: order here for pickup or delivery.' },
+    { date: '2026-10-28', text: '前一天 18:00 前預購滿 10 杯，整筆打 9 折。',
+      en: 'Order 10+ cups by 6 PM the day before and get 10% off the whole order.' },
   ],
 
   // 營業時間：0=週日 … 6=週六，沒寫的那天公休
@@ -39,10 +48,37 @@ window.SITE = {
   //   days 可限定星期幾（0=週日），start / end 是開始和結束日期（含當天）
   promos: [
     { title: '週一、週四 第二杯半價', type: 'second-half', days: [1, 4], start: '2026-10-28', end: '2026-12-31',
-      note: '同一筆訂單每兩杯，較便宜的那杯半價。' },
+      note: '同一筆訂單每兩杯，較便宜的那杯半價。',
+      en: { title: 'Mon & Thu: 2nd cup half price', note: 'In each order, every second (cheaper) cup is half price.' } },
     { title: '鮮奶茶雙週 每杯折 10 元', type: 'item-price', cat: '鮮奶茶', off: 10, start: '2026-10-28', end: '2026-11-10',
-      note: '鮮奶茶全品項，紅玉鮮奶茶 60、桂妃鮮奶茶 55。' }
+      note: '鮮奶茶全品項，紅玉鮮奶茶 60、桂妃鮮奶茶 55。',
+      en: { title: 'Fresh milk tea: $10 off each', note: 'All fresh milk teas.' } }
   ],
+
+  // 英文名稱對照：新增品項時，在這裡加一行英文名（沒加的會顯示中文）
+  en: {
+    '原茶':'Pure Tea', '特調茶':'Specialty Tea', '鮮奶茶':'Fresh Milk Tea', '奶茶':'Milk Tea', '奶蓋':'Milk Foam Tea',
+    '日月潭紅玉紅茶':'Sun Moon Lake Ruby Black Tea', '魚池阿薩姆紅茶':'Yuchi Assam Black Tea', '蜜香紅茶':'Honey-Scent Black Tea',
+    '四季青春茶':'Four Seasons Oolong', '茉香綠茶':'Jasmine Green Tea', '阿里山金萱茶':'Alishan Jin Xuan Oolong',
+    '黃金蕎麥茶':'Golden Buckwheat Tea', '古早味冬瓜茶':'Classic Winter Melon Tea',
+    '黃金柳橙綠':'Orange Green Tea', '蘋果紅茶':'Apple Black Tea', '蘋果青茶':'Apple Oolong',
+    '檸檬愛玉紅茶':'Lemon Black Tea with Aiyu Jelly', '冬瓜檸檬愛玉':'Winter Melon Lemon with Aiyu Jelly', '蜂蜜凍檸檬青茶':'Lemon Oolong with Honey Jelly',
+    '檸檬愛玉':'Lemon Aiyu Jelly', '甘蔗青茶':'Sugarcane Oolong', '梅子醋青茶':'Plum Vinegar Oolong',
+    '百香果綠茶':'Passion Fruit Green Tea', '冰梅茉香綠茶':'Plum Jasmine Green Tea', '檸檬紅茶':'Lemon Black Tea',
+    '冬瓜檸檬':'Winter Melon Lemonade', '多多綠茶':'Yakult Green Tea', '翡翠檸檬':'Lemon Jade Green Tea', '冬瓜青茶':'Winter Melon Oolong',
+    '黑糖珍珠鮮奶':'Brown Sugar Boba Fresh Milk', '仙草凍鮮奶':'Grass Jelly Fresh Milk', '紅玉鮮奶茶':'Ruby Black Tea Fresh Milk Tea',
+    '錫蘭鮮奶茶':'Ceylon Fresh Milk Tea', '桂妃鮮奶茶':'Osmanthus Oolong Fresh Milk Tea', '格雷伯爵鮮奶茶':'Earl Grey Fresh Milk Tea',
+    '碳焙烏龍鮮奶茶':'Roasted Oolong Fresh Milk Tea', '阿薩姆鮮奶茶':'Assam Fresh Milk Tea', '茉香綠鮮奶茶':'Jasmine Green Fresh Milk Tea',
+    '冬瓜鮮奶茶':'Winter Melon Fresh Milk', '黃金蕎麥鮮奶茶':'Buckwheat Fresh Milk Tea',
+    '紅玉奶茶':'Ruby Black Milk Tea', '錫蘭奶茶':'Ceylon Milk Tea', '碳焙烏龍奶茶':'Roasted Oolong Milk Tea',
+    '格雷伯爵奶茶':'Earl Grey Milk Tea', '阿薩姆奶茶':'Assam Milk Tea', '茉香綠奶茶':'Jasmine Green Milk Tea', '蜜香奶茶':'Honey-Scent Milk Tea',
+    '奶蓋紅玉紅茶':'Ruby Black Tea with Milk Foam', '奶蓋蜜香紅茶':'Honey-Scent Black Tea with Milk Foam', '奶蓋阿薩姆紅茶':'Assam Black Tea with Milk Foam',
+    '奶蓋四季青茶':'Four Seasons Oolong with Milk Foam', '奶蓋茉香綠茶':'Jasmine Green Tea with Milk Foam', '奶蓋金萱茶':'Jin Xuan Oolong with Milk Foam',
+    '奶蓋蕎麥茶':'Buckwheat Tea with Milk Foam',
+    '正常糖':'Regular sugar', '八分糖':'80% sugar', '半糖':'Half sugar', '微糖':'Light sugar', '無糖':'No sugar', '固定甜度':'Fixed sweetness',
+    '正常冰':'Regular ice', '少冰':'Less ice', '微冰':'Light ice', '去冰':'No ice', '溫':'Warm',
+    '愛玉':'Aiyu jelly', '布丁':'Pudding', '仙草凍':'Grass jelly', '蜂蜜凍':'Honey jelly', '寒天黑糖':'Brown sugar agar', '珍珠':'Boba', '椰果':'Nata de coco'
+  },
 
   sugar: ['正常糖','八分糖','半糖','微糖','無糖'],
   ice:   ['正常冰','少冰','微冰','去冰','溫'],

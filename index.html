@@ -37,6 +37,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .top nav{display:flex;gap:16px}
 .top nav a{text-decoration:none}
 .top nav a:hover{color:var(--ink)}
+.lang{border:1px solid var(--rule);background:none;color:inherit;font:inherit;font-size:12px;padding:3px 9px;border-radius:999px;cursor:pointer;letter-spacing:.05em}
+.top-r{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .open{display:inline-flex;align-items:center;gap:6px}
 .open i{width:7px;height:7px;border-radius:50%;background:var(--muted)}
 .open.on i{background:var(--leaf)}
@@ -160,7 +162,7 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
 <div class="wrap" id="app">
   <div class="top">
     <span class="open" id="openState"><i></i><span></span></span>
-    <nav aria-label="頁面導覽"><a href="#news">公告</a><a href="#order">菜單訂購</a><a href="#delivery">外送</a><a href="#visit">門市資訊</a></nav>
+    <div class="top-r"><nav aria-label="頁面導覽"><a href="#news" data-en="News">公告</a><a href="#order" data-en="Menu">菜單訂購</a><a href="#delivery" data-en="Delivery">外送</a><a href="#visit" data-en="Store">門市資訊</a></nav><button type="button" class="lang" id="langBtn" aria-label="Switch language">EN</button></div>
   </div>
 
   <header class="hero">
@@ -169,7 +171,7 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
       <h1 id="h1"></h1>
       <p id="intro"></p>
       <div class="cta">
-        <a class="btn leaf" href="#order">線上訂購</a>
+        <a class="btn leaf" href="#order" data-en="Order online">線上訂購</a>
         <a class="btn ghost" id="telBtn" href="#"></a>
       </div>
     </div>
@@ -178,62 +180,62 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
   <div id="promos"></div>
 
   <section id="news">
-    <div class="sec-h"><h2>公告</h2><span>News</span></div>
+    <div class="sec-h"><h2 data-en="News">公告</h2><span data-en="">News</span></div>
     <ul class="news" id="newsList"></ul>
   </section>
 
   <section id="order">
-    <div class="sec-h"><h2>菜單</h2><span>Menu · 點選加入訂單</span></div>
+    <div class="sec-h"><h2 data-en="Menu">菜單</h2><span data-en="Tap a drink to add it">Menu · 點選加入訂單</span></div>
     <div class="cats" id="cats"></div>
     <div id="menu"></div>
     <div class="legend" id="legend"></div>
 
     <form class="slip" id="slip" novalidate>
-      <h3>訂單</h3>
+      <h3 data-en="Your order">訂單</h3>
       <div id="lines"></div>
 
-      <div class="lbl">取餐方式</div>
+      <div class="lbl" data-en="Pickup or delivery">取餐方式</div>
       <div class="chips">
-        <label><input type="radio" name="mode" id="modePickup" value="自取" checked><span>到店自取</span></label>
-        <label><input type="radio" name="mode" id="modeDelivery" value="外送"><span>外送</span></label>
+        <label><input type="radio" name="mode" id="modePickup" value="自取" checked><span data-en="Pickup">到店自取</span></label>
+        <label><input type="radio" name="mode" id="modeDelivery" value="外送"><span data-en="Delivery">外送</span></label>
       </div>
       <div class="hint" id="modeHint"></div>
 
       <div id="deliveryFields" hidden>
-        <div class="field"><label for="dist">離店裡多遠</label><select id="dist"></select></div>
-        <div class="field" id="companyField" hidden><label for="company">公司／單位名稱（選填）</label><input id="company" autocomplete="organization"></div>
-        <div class="field"><label for="addr">外送地址（必填）</label><input id="addr" required autocomplete="street-address" placeholder="例：三重區五谷王北街○○號 3 樓"></div>
+        <div class="field"><label for="dist" data-en="Distance from the shop">離店裡多遠</label><select id="dist"></select></div>
+        <div class="field" id="companyField" hidden><label for="company" data-en="Company (optional)">公司／單位名稱（選填）</label><input id="company" autocomplete="organization"></div>
+        <div class="field"><label for="addr" data-en="Delivery address (required)">外送地址（必填）</label><input id="addr" required autocomplete="street-address" placeholder="例：三重區五谷王北街○○號 3 樓" data-en-ph="Street, number, floor"></div>
       </div>
-      <div class="field"><label for="name">姓名</label><input id="name" autocomplete="name"></div>
+      <div class="field"><label for="name" data-en="Name">姓名</label><input id="name" autocomplete="name"></div>
       <div class="row2">
-        <div class="field"><label for="tel">手機（二擇一）</label><input id="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="09xx-xxx-xxx"></div>
-        <div class="field"><label for="tel2">市話（二擇一）</label><input id="tel2" type="tel" inputmode="tel" placeholder="02-xxxx-xxxx #分機"></div>
+        <div class="field"><label for="tel" data-en="Mobile (or landline)">手機（二擇一）</label><input id="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="09xx-xxx-xxx"></div>
+        <div class="field"><label for="tel2" data-en="Landline (or mobile)">市話（二擇一）</label><input id="tel2" type="tel" inputmode="tel" placeholder="02-xxxx-xxxx #分機" data-en-ph="02-xxxx-xxxx #ext"></div>
       </div>
-      <p class="hint" style="margin:-4px 0 12px">手機、市話擇一填寫即可，公司訂購可以留公司電話。</p>
+      <p class="hint" style="margin:-4px 0 12px" data-en="One phone number is enough — mobile or landline.">手機、市話擇一填寫即可，公司訂購可以留公司電話。</p>
       <div class="row2">
-        <div class="field"><label for="day">日期</label><select id="day"></select></div>
-        <div class="field"><label for="time">時間</label><select id="time"></select></div>
+        <div class="field"><label for="day" data-en="Date">日期</label><select id="day"></select></div>
+        <div class="field"><label for="time" data-en="Time">時間</label><select id="time"></select></div>
       </div>
-      <div class="field"><label for="code">優惠碼（選填）</label><input id="code" autocomplete="off" autocapitalize="characters"></div>
-      <div class="field"><label for="note">備註（選填）</label><textarea id="note" rows="2" placeholder="例：分兩袋裝、到了打電話"></textarea></div>
-      <div class="field"><label for="bags">塑膠袋（$1／個，不需要填 0）</label><div class="qty"><button type="button" id="bMinus" aria-label="減少">−</button><input id="bags" type="number" inputmode="numeric" min="0" max="99" value="0" aria-label="塑膠袋數量"><button type="button" id="bPlus" aria-label="增加">+</button></div></div>
+      <div class="field"><label for="code" data-en="Promo code (optional)">優惠碼（選填）</label><input id="code" autocomplete="off" autocapitalize="characters"></div>
+      <div class="field"><label for="note" data-en="Notes (optional)">備註（選填）</label><textarea id="note" rows="2" placeholder="例：分兩袋裝、到了打電話" data-en-ph="e.g. split into two bags, call on arrival"></textarea></div>
+      <div class="field"><label for="bags" data-en="Plastic bags ($1 each, 0 if none)">塑膠袋（$1／個，不需要填 0）</label><div class="qty"><button type="button" id="bMinus" aria-label="減少">−</button><input id="bags" type="number" inputmode="numeric" min="0" max="99" value="0" aria-label="塑膠袋數量"><button type="button" id="bPlus" aria-label="增加">+</button></div></div>
       <input class="hp" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="hint err" id="formErr" hidden></div>
-      <div class="demo" id="demoNote" hidden>目前是預覽模式，送出的訂單不會傳到店裡。</div>
+      <div class="demo" id="demoNote" hidden data-en="Preview mode: orders will not be sent to the shop.">目前是預覽模式，送出的訂單不會傳到店裡。</div>
     </form>
   </section>
 
   <section id="delivery">
-    <div class="sec-h"><h2>外送</h2><span>Delivery</span></div>
+    <div class="sec-h"><h2 data-en="Delivery">外送</h2><span data-en="">Delivery</span></div>
     <div class="rules" id="rules"></div>
   </section>
 
   <section id="visit">
-    <div class="sec-h"><h2>門市資訊</h2><span>Store</span></div>
+    <div class="sec-h"><h2 data-en="Store">門市資訊</h2><span data-en="">Store</span></div>
     <table class="hours" id="hours"></table>
     <div class="addr">
       <div id="addrTxt"></div>
-      <div><a id="mapLink" href="#" target="_blank" rel="noopener">在 Google 地圖開啟 →</a></div>
+      <div><a id="mapLink" href="#" target="_blank" rel="noopener" data-en="Open in Google Maps →">在 Google 地圖開啟 →</a></div>
     </div>
   </section>
 
@@ -247,7 +249,7 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
       <div class="meter" id="meter" hidden><i id="meterFill"></i></div>
       <div class="need" id="need"></div>
     </div>
-    <button class="btn leaf" id="submitBtn" type="button">送出訂單</button>
+    <button class="btn leaf" id="submitBtn" type="button" data-en="Place order">送出訂單</button>
   </div>
 </div>
 
@@ -261,7 +263,38 @@ var cart = [];
 var $ = function(id){ return document.getElementById(id); };
 var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
 var money = function(n){ return '$' + n.toLocaleString('en-US'); };
-var WD = ['日','一','二','三','四','五','六'];
+var WD = ['日','一','二','三','四','五','六'], WDE = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var LANG = (function(){ var q = (location.search.match(/[?&]lang=(en|zh)/) || [])[1]; try { return q || localStorage.getItem('lang') || 'zh'; } catch(e){ return q || 'zh'; } })();
+var EN = function(){ return LANG === 'en'; };
+var T = function(zh, en){ return EN() ? en : zh; };
+var N = function(zh){ return EN() && S.en && S.en[zh] || zh; };
+var wd = function(i){ return EN() ? WDE[i] : WD[i]; };
+function optsT(o){
+  if (!EN()) return o;
+  return o.split('／').map(function(x){ return x.charAt(0)==='加' && S.en[x.slice(1)] ? '+ ' + S.en[x.slice(1)] : N(x); }).join(' / ');
+}
+function applyStatic(){
+  document.documentElement.lang = EN() ? 'en' : 'zh-Hant';
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    if (el.dataset.zh == null) el.dataset.zh = el.textContent;
+    el.textContent = EN() ? el.dataset.en : el.dataset.zh;
+  });
+  document.querySelectorAll('[data-en-ph]').forEach(function(el){
+    if (el.dataset.zhPh == null) el.dataset.zhPh = el.placeholder;
+    el.placeholder = EN() ? el.dataset.enPh : el.dataset.zhPh;
+  });
+  $('langBtn').textContent = EN() ? '中文' : 'EN';
+}
+function dayLabelZh(ds){
+  var d = new Date(ds + 'T00:00:00'), t = new Date(), diff = Math.round((d - new Date(t.getFullYear(), t.getMonth(), t.getDate())) / 864e5);
+  return (diff===0?'今天 ':diff===1?'明天 ':'') + (d.getMonth()+1) + '/' + d.getDate() + '（' + WD[d.getDay()] + '）';
+}
+function distLabel(km, lang){
+  var d = S.delivery, en = lang === 'en';
+  if (km > d.maxKm) return en ? 'Over ' + d.maxKm + ' km' : d.maxKm + ' 公里以上';
+  if (km === d.baseKm) return en ? 'Within ' + d.baseKm + ' km' : d.baseKm + ' 公里內';
+  return en ? (km-1) + '–' + km + ' km' : (km-1) + '–' + km + ' 公里';
+}
 function toMin(t){ var p = t.split(':'); return +p[0]*60 + +p[1]; }
 function hm(m){ return String(Math.floor(m/60)).padStart(2,'0') + ':' + String(m%60).padStart(2,'0'); }
 function ymd(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
@@ -269,20 +302,21 @@ function mode(){ return document.querySelector('input[name=mode]:checked').value
 
 /* ---------- static content ---------- */
 function renderStatic(){
-  $('h1').innerHTML = esc(S.storeName) + '<small>' + esc(S.branch) + '</small>';
-  $('intro').textContent = S.intro;
-  var t = [].concat(S.tagline);
+  $('h1').innerHTML = esc(T(S.storeName, S.storeNameEn || S.storeName)) + '<small>' + esc(T(S.branch, S.branchEn || S.branch)) + '</small>';
+  $('intro').textContent = T(S.intro, S.introEn || S.intro);
+  var t = [].concat(EN() && S.taglineEn || S.tagline);
+  $('vert').style.display = EN() ? 'none' : '';
   $('vert').innerHTML = esc(t[0]) + (t[1] ? '<br><span>' + esc(t[1]) + '</span>' : '');
-  $('telBtn').textContent = '訂購專線 ' + S.phone;
+  $('telBtn').textContent = T('訂購專線 ', 'Call ') + S.phone;
   $('telBtn').href = 'tel:' + S.phone.replace(/\D/g,'');
   var d = new Date(), h = S.hours[d.getDay()], now = d.getHours()*60 + d.getMinutes();
   var on = h && now >= toMin(h[0]) && now < toMin(h[1]);
   $('openState').classList.toggle('on', !!on);
-  $('openState').lastChild.textContent = on ? '營業中・今天到 ' + h[1] : h ? '今天 ' + h[0] + '–' + h[1] : '今天公休';
+  $('openState').lastChild.textContent = on ? T('營業中・今天到 ', 'Open now · until ') + h[1] : h ? T('今天 ', 'Today ') + h[0] + '–' + h[1] : T('今天公休', 'Closed today');
 
   $('newsList').innerHTML = S.news.slice(0,4).map(function(n){
     var dt = new Date(n.date + 'T00:00:00');
-    return '<li><time class="num" datetime="' + n.date + '">' + (dt.getMonth()+1) + '.' + String(dt.getDate()).padStart(2,'0') + '</time><div>' + esc(n.text) + '</div></li>';
+    return '<li><time class="num" datetime="' + n.date + '">' + (dt.getMonth()+1) + '.' + String(dt.getDate()).padStart(2,'0') + '</time><div>' + esc(EN() && n.en || n.text) + '</div></li>';
   }).join('');
 
   var shown = {}, banners = [], b0 = new Date();
@@ -291,49 +325,52 @@ function renderStatic(){
     activePromos(ds).forEach(function(pr){ if (!shown[pr.title] && pr.type !== 'code'){ shown[pr.title] = 1; banners.push(pr); } });
   }
   $('promos').innerHTML = banners.map(function(pr){
-    var when = pr.days ? '每週' + pr.days.map(function(x){ return WD[x]; }).join('、') : '';
+    var when = pr.days ? T('每週', 'Every ') + pr.days.map(function(x){ return wd(x); }).join(T('、', ' & ')) : '';
     var md = function(x){ return (+x.slice(5,7)) + '/' + (+x.slice(8,10)); };
-    if (pr.start && pr.start > ymd(b0)) when += (when ? '・' : '') + md(pr.start) + ' 起';
-    if (pr.end) when += (when ? '・' : '') + '到 ' + md(pr.end) + ' 止';
-    return '<a class="promo" href="#order"><b>' + esc(pr.title) + '</b>' + esc(pr.note || '') + '<small>' + esc(when) + '</small></a>';
+    if (pr.start && pr.start > ymd(b0)) when += (when ? '・' : '') + T(md(pr.start) + ' 起', 'from ' + md(pr.start));
+    if (pr.end) when += (when ? '・' : '') + T('到 ' + md(pr.end) + ' 止', 'until ' + md(pr.end));
+    var pe = EN() && pr.en || pr;
+    return '<a class="promo" href="#order"><b>' + esc(pe.title) + '</b>' + esc(pe.note || '') + '<small>' + esc(when) + '</small></a>';
   }).join('');
   var dl = S.delivery, p = S.preorder;
   $('rules').innerHTML = [
-    ['外送', dl.baseKm + ' 公里內滿 $' + dl.baseMin + ' 外送，每多 1 公里低消加 $' + dl.stepPerKm + '。超過 ' + dl.maxKm + ' 公里，建議來電確認（' + S.phone + '）。'],
-    ['預購', '前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯，整筆打 9 折，網站下單自動計算。'],
-    ['自取', '不限杯數，選好時間到店直接取。']
+    [T('外送','Delivery'), T(dl.baseKm + ' 公里內滿 $' + dl.baseMin + ' 外送，每多 1 公里低消加 $' + dl.stepPerKm + '。超過 ' + dl.maxKm + ' 公里，建議來電確認（' + S.phone + '）。',
+      'Minimum $' + dl.baseMin + ' within ' + dl.baseKm + ' km, +$' + dl.stepPerKm + ' for each extra km. Over ' + dl.maxKm + ' km, please call us (' + S.phone + ').')],
+    [T('預購','Pre-order'), T('前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯，整筆打 9 折，網站下單自動計算。',
+      'Order ' + p.cups + '+ cups by ' + p.cutoff + ' the day before and get 10% off — applied automatically.')],
+    [T('自取','Pickup'), T('不限杯數，選好時間到店直接取。', 'No minimum. Pick a time and collect at the shop.')]
   ].map(function(r){ return '<div class="rule"><b>' + r[0] + '</b><div>' + esc(r[1]) + '</div></div>'; }).join('');
 
   var today = d.getDay(), rows = '';
   [1,2,3,4,5,6,0].forEach(function(i){
     var hh = S.hours[i];
-    rows += '<tr' + (i===today?' class="today"':'') + '><td>星期' + WD[i] + (i===today?'（今天）':'') + '</td><td>' + (hh ? hh[0] + ' – ' + hh[1] : '公休') + '</td></tr>';
+    rows += '<tr' + (i===today?' class="today"':'') + '><td>' + T('星期' + WD[i], WDE[i]) + (i===today?T('（今天）',' (today)'):'') + '</td><td>' + (hh ? hh[0] + ' – ' + hh[1] : T('公休','Closed')) + '</td></tr>';
   });
   $('hours').innerHTML = rows;
-  $('addrTxt').textContent = S.address + '　' + S.phone;
+  $('addrTxt').textContent = T(S.address, S.addressEn || S.address) + '　' + S.phone;
   $('mapLink').href = S.mapUrl;
-  $('foot').textContent = S.storeName + ' ' + S.branch + '・100% 純蔗糖';
+  $('foot').textContent = T(S.storeName + ' ' + S.branch, (S.storeNameEn || S.storeName) + ' · ' + (S.branchEn || S.branch));
   $('demoNote').hidden = !!S.orderEndpoint;
-  $('legend').textContent = '飲料皆為 L 杯。標「固定甜度」的品項無法調整甜度。加料：' +
-    S.toppings.map(function(t){ return t.name + ' ' + t.price; }).join('、') + '。';
+  $('legend').textContent = T('飲料皆為 L 杯。標「固定甜度」的品項無法調整甜度。加料：', 'All drinks are size L. Items marked "Fixed sweetness" can\'t be adjusted. Toppings: ') +
+    S.toppings.map(function(t){ return N(t.name) + ' ' + t.price; }).join(T('、', ', ')) + T('。', '.');
 }
 
 /* ---------- menu ---------- */
 function renderMenu(){
   var cats = '', html = '';
   S.menu.forEach(function(c, ci){
-    cats += '<button type="button" data-cat="' + ci + '"' + (ci===0?' class="on"':'') + '>' + esc(c.cat) + '</button>';
-    html += '<div class="cat-h" id="cat' + ci + '">' + esc(c.cat) + '</div>';
+    cats += '<button type="button" data-cat="' + ci + '"' + (ci===0?' class="on"':'') + '>' + esc(N(c.cat)) + '</button>';
+    html += '<div class="cat-h" id="cat' + ci + '">' + esc(N(c.cat)) + '</div>';
     c.items.forEach(function(it, ii){
       var n = cart.filter(function(l){ return l.name===it.name; }).reduce(function(s,l){ return s+l.qty; },0);
       var sp = salePrice(it.name, it.price[0], orderDay());
-      var tags = (sp < it.price[0] ? '<span class="tag sale">特價</span>' : '') + (it.hot ? '<span class="tag hot">推薦</span>' : '') + (it.fixed ? '<span class="tag">固定甜度</span>' : '');
-      html += '<div class="item" data-c="' + ci + '" data-i="' + ii + '"><div class="nm"><b>' + esc(it.name) + '</b>' + tags + '</div>' +
+      var tags = (sp < it.price[0] ? '<span class="tag sale">' + T('特價','Sale') + '</span>' : '') + (it.hot ? '<span class="tag hot">' + T('推薦','Popular') + '</span>' : '') + (it.fixed ? '<span class="tag">' + T('固定甜度','Fixed sweetness') + '</span>' : '');
+      html += '<div class="item" data-c="' + ci + '" data-i="' + ii + '"><div class="nm"><b>' + esc(N(it.name)) + '</b>' + tags + '</div>' +
         '<span class="cnt">' + (n ? '×' + n : '') + '</span><span class="pr">' + (sp < it.price[0] ? '<s>' + it.price[0] + '</s>' + sp : it.price[0]) + '</span>' +
-        '<button type="button" class="add" aria-label="加入 ' + esc(it.name) + '">+</button></div>';
+        '<button type="button" class="add" aria-label="' + T('加入 ','Add ') + esc(N(it.name)) + '">+</button></div>';
     });
   });
-  if (!$('cats').children.length) $('cats').innerHTML = cats;
+  if (!$('cats').children.length || $('cats').dataset.lang !== LANG){ $('cats').innerHTML = cats; $('cats').dataset.lang = LANG; }
   $('menu').innerHTML = html;
 }
 $('cats').addEventListener('click', function(e){
@@ -350,7 +387,7 @@ $('menu').addEventListener('click', function(e){
 /* ---------- option sheet ---------- */
 function chips(name, list, checked, multi){
   return '<div class="chips">' + list.map(function(v,i){
-    var label = typeof v === 'string' ? v : v.name + ' +' + v.price;
+    var label = typeof v === 'string' ? N(v) : N(v.name) + ' +' + v.price;
     return '<label><input type="' + (multi?'checkbox':'radio') + '" name="' + name + '" id="' + name + i + '" value="' + i + '"' +
       (i===checked?' checked':'') + '><span>' + esc(label) + '</span></label>';
   }).join('') + '</div>';
@@ -360,13 +397,13 @@ function openSheet(it){
   cur = it; curQty = 1;
   var multi = it.price.length > 1;
   $('sheetBody').innerHTML =
-    '<h3 id="sheetTitle">' + esc(it.name) + '</h3>' +
-    (multi ? '<div class="lbl">尺寸</div>' + chips('o_size', S.sizes.map(function(s,i){ return s + ' $' + it.price[i]; }), 0) : '') +
-    (it.fixed ? '<div class="lbl">甜度：固定甜度</div>' : '<div class="lbl">甜度</div>' + chips('o_sugar', S.sugar, 0)) +
-    '<div class="lbl">冰塊</div>' + chips('o_ice', S.ice, 0) +
-    '<div class="lbl">加料</div>' + chips('o_top', S.toppings, -1, true) +
-    '<div class="lbl">數量</div><div class="qty"><button type="button" id="qMinus" aria-label="減少">−</button><input id="qNum" type="number" inputmode="numeric" min="1" max="99" value="1" aria-label="數量"><button type="button" id="qPlus" aria-label="增加">+</button></div>' +
-    '<div style="display:flex;gap:10px;margin-top:22px"><button type="button" class="btn ghost" id="sheetCancel" style="flex:1">取消</button>' +
+    '<h3 id="sheetTitle">' + esc(N(it.name)) + '</h3>' +
+    (multi ? '<div class="lbl">' + T('尺寸','Size') + '</div>' + chips('o_size', S.sizes.map(function(s,i){ return s + ' $' + it.price[i]; }), 0) : '') +
+    (it.fixed ? '<div class="lbl">' + T('甜度：固定甜度','Sweetness: fixed') + '</div>' : '<div class="lbl">' + T('甜度','Sweetness') + '</div>' + chips('o_sugar', S.sugar, 0)) +
+    '<div class="lbl">' + T('冰塊','Ice') + '</div>' + chips('o_ice', S.ice, 0) +
+    '<div class="lbl">' + T('加料','Toppings') + '</div>' + chips('o_top', S.toppings, -1, true) +
+    '<div class="lbl">' + T('數量','Quantity') + '</div><div class="qty"><button type="button" id="qMinus" aria-label="−">−</button><input id="qNum" type="number" inputmode="numeric" min="1" max="99" value="1" aria-label="' + T('數量','Quantity') + '"><button type="button" id="qPlus" aria-label="+">+</button></div>' +
+    '<div style="display:flex;gap:10px;margin-top:22px"><button type="button" class="btn ghost" id="sheetCancel" style="flex:1">' + T('取消','Cancel') + '</button>' +
     '<button type="button" class="btn leaf" id="sheetAdd" style="flex:2"></button></div>';
   $('mask').hidden = false; $('sheet').hidden = false;
   $('sheetBody').onchange = updSheet;
@@ -384,7 +421,7 @@ function unitOf(){
   var topSum = tops.reduce(function(s,t){ return s+t.price; },0);
   return { size: cur.price.length>1 ? S.sizes[si] : '', tops: tops, base: cur.price[si], topSum: topSum, unit: salePrice(cur.name, cur.price[si], orderDay()) + topSum };
 }
-function updSheet(typing){ if (typing !== true) $('qNum').value = curQty; $('sheetAdd').textContent = '加入訂單 ' + money(unitOf().unit * curQty); }
+function updSheet(typing){ if (typing !== true) $('qNum').value = curQty; $('sheetAdd').textContent = T('加入訂單 ','Add to order ') + money(unitOf().unit * curQty); }
 function addCur(){
   var u = unitOf();
   var sugar = cur.fixed ? '固定甜度' : S.sugar[+document.querySelector('input[name=o_sugar]:checked').value];
@@ -427,9 +464,10 @@ function bestDeal(){
   var deals = [];
   var pctOff = function(rate){ return Math.round(sub * (1 - rate)); };
   var pctDetail = function(rate){ return ['全部 ' + n + ' 杯 $' + sub + ' × ' + Math.round(rate*100)/10 + ' 折'] ; };
-  if (preorderOk()) deals.push({ title: '預購滿 ' + S.preorder.cups + ' 杯 9 折', off: pctOff(S.preorder.rate), detail: pctDetail(S.preorder.rate) });
+  var pctDetailEn = function(rate){ return ['All ' + n + ' cups $' + sub + ' × ' + Math.round(rate*100) + '%'] ; };
+  if (preorderOk()) deals.push({ title: '預購滿 ' + S.preorder.cups + ' 杯 9 折', titleEn: 'Pre-order ' + S.preorder.cups + '+ cups: 10% off', off: pctOff(S.preorder.rate), detail: pctDetail(S.preorder.rate), detailEn: pctDetailEn(S.preorder.rate) });
   activePromos(ds).forEach(function(p){
-    var off = 0, detail = [];
+    var off = 0, detail = [], detailEn = [];
     if (p.type === 'second-half'){
       var u = []; cart.forEach(function(l){ for (var i = 0; i < l.qty; i++) u.push({ name: l.name, p: unitOfLine(l) }); });
       u.sort(function(a,b){ return b.p - a.p; });
@@ -441,9 +479,10 @@ function bestDeal(){
         at[k].c++;
       }
       detail = agg.map(function(a){ return a.name + '（$' + a.p + '）半價 ×' + a.c + ' 杯　−$' + a.h*a.c; });
-    } else if (p.type === 'spend-off' && sub >= p.min){ off = p.off; detail = ['滿 $' + p.min + ' 折 $' + p.off]; }
-    else if (p.type === 'code' && code && code === String(p.code).toUpperCase()){ off = pctOff(p.rate); detail = pctDetail(p.rate); }
-    if (off > 0) deals.push({ title: p.title, off: off, detail: detail });
+      detailEn = agg.map(function(a){ return (S.en[a.name] || a.name) + ' ($' + a.p + ') half price ×' + a.c + '  −$' + a.h*a.c; });
+    } else if (p.type === 'spend-off' && sub >= p.min){ off = p.off; detail = ['滿 $' + p.min + ' 折 $' + p.off]; detailEn = ['$' + p.off + ' off orders over $' + p.min]; }
+    else if (p.type === 'code' && code && code === String(p.code).toUpperCase()){ off = pctOff(p.rate); detail = pctDetail(p.rate); detailEn = pctDetailEn(p.rate); }
+    if (off > 0) deals.push({ title: p.title, titleEn: p.en && p.en.title || p.title, off: off, detail: detail, detailEn: detailEn });
   });
   return deals.sort(function(a,b){ return b.off - a.off; })[0] || null;
 }
@@ -471,17 +510,18 @@ function minOrder(){
 
 /* ---------- slip ---------- */
 function renderLines(){
-  if (!cart.length){ $('lines').innerHTML = '<div class="empty">還沒有飲料。點上面的品項加入。</div>'; return; }
+  if (!cart.length){ $('lines').innerHTML = '<div class="empty">' + T('還沒有飲料。點上面的品項加入。','No drinks yet. Tap a drink above to add it.') + '</div>'; return; }
   var p = S.preorder;
   $('lines').innerHTML = cart.map(function(l,i){
-    return '<div class="li"><div class="d">' + esc(l.name) + ' ×<input class="lq" type="number" inputmode="numeric" min="0" max="99" value="' + l.qty + '" data-i="' + i + '" aria-label="' + esc(l.name) + ' 數量">' + '<div class="o">' + esc(l.opts) + '　單價 ' + money(unitOfLine(l)) + '</div></div>' +
-      '<div class="p">' + money(unitOfLine(l)*l.qty) + '</div><button type="button" class="x" data-i="' + i + '">移除</button></div>';
+    return '<div class="li"><div class="d">' + esc(N(l.name)) + ' ×<input class="lq" type="number" inputmode="numeric" min="0" max="99" value="' + l.qty + '" data-i="' + i + '" aria-label="' + esc(N(l.name)) + T(' 數量',' quantity') + '">' + '<div class="o">' + esc(optsT(l.opts)) + T('　單價 ', ' · each ') + money(unitOfLine(l)) + '</div></div>' +
+      '<div class="p">' + money(unitOfLine(l)*l.qty) + '</div><button type="button" class="x" data-i="' + i + '">' + T('移除','Remove') + '</button></div>';
   }).join('') +
-  (discount() ? '<div class="li"><div class="d">優惠：' + esc(bestDeal().title) + '<div class="o">' + bestDeal().detail.map(esc).join('<br>') + '</div></div><div class="p">−' + money(discount()) + '</div></div>' : '') +
-  (bags() ? '<div class="li"><div class="d">塑膠袋 ×' + bags() + '</div><div class="p">' + money(bagFee()) + '</div></div>' : '') +
-  '<div class="li"><div class="d"><b>共 ' + cups() + ' 杯</b></div><div class="p"><b>' + money(total()) + '</b></div></div>' +
-  (discount() ? '<div class="hint">整筆優惠擇一，已自動幫你選最划算的。</div>' : '') +
-  (!discount() ? '<div class="hint">前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯打 9 折' + (cups() >= p.cups ? '，日期選明天以後就有折扣。' : '。') + '</div>' : '');
+  (discount() ? '<div class="li"><div class="d">' + T('優惠：','Discount: ') + esc(T(bestDeal().title, bestDeal().titleEn)) + '<div class="o">' + (EN() ? bestDeal().detailEn : bestDeal().detail).map(esc).join('<br>') + '</div></div><div class="p">−' + money(discount()) + '</div></div>' : '') +
+  (bags() ? '<div class="li"><div class="d">' + T('塑膠袋 ×','Plastic bags ×') + bags() + '</div><div class="p">' + money(bagFee()) + '</div></div>' : '') +
+  '<div class="li"><div class="d"><b>' + T('共 ' + cups() + ' 杯', cups() + (cups()===1 ? ' cup' : ' cups')) + '</b></div><div class="p"><b>' + money(total()) + '</b></div></div>' +
+  (discount() ? '<div class="hint">' + T('整筆優惠擇一，已自動幫你選最划算的。','One discount per order — the best one is applied automatically.') + '</div>' : '') +
+  (!discount() ? '<div class="hint">' + T('前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯打 9 折' + (cups() >= p.cups ? '，日期選明天以後就有折扣。' : '。'),
+     'Order ' + p.cups + '+ cups by ' + p.cutoff + ' the day before for 10% off' + (cups() >= p.cups ? ' — pick tomorrow or later to get it.' : '.')) + '</div>' : '');
 }
 $('bags').addEventListener('input', refresh);
 $('bMinus').addEventListener('click', function(){ $('bags').value = Math.max(0, bags()-1); refresh(); });
@@ -498,9 +538,12 @@ function renderDist(){
   var d = S.delivery, o = '';
   for (var km = d.baseKm; km <= d.maxKm + 1; km++){
     var far = km > d.maxKm;
-    o += '<option value="' + km + '">' + (far ? d.maxKm + ' 公里以上' : km===d.baseKm ? d.baseKm + ' 公里內' : (km-1) + '–' + km + ' 公里') + '（' + (far ? '建議來電確認' : '滿 $' + (d.baseMin + (km-d.baseKm)*d.stepPerKm)) + '）</option>';
+    o += '<option value="' + km + '">' + distLabel(km, LANG) + T('（' + (far ? '建議來電確認' : '滿 $' + (d.baseMin + (km-d.baseKm)*d.stepPerKm)) + '）',
+      ' (' + (far ? 'please call us' : 'min. $' + (d.baseMin + (km-d.baseKm)*d.stepPerKm)) + ')') + '</option>';
   }
+  var keep = $('dist').value;
   $('dist').innerHTML = o;
+  if (keep) $('dist').value = keep;
 }
 function slotsFor(ds){
   var d = new Date(ds + 'T00:00:00'), h = S.hours[d.getDay()];
@@ -516,7 +559,7 @@ function renderDays(){
   for (var i = 0; i <= S.daysAhead; i++){
     var d = new Date(b.getFullYear(), b.getMonth(), b.getDate()+i), s = ymd(d);
     if (!slotsFor(s).length) continue;
-    o += '<option value="' + s + '">' + (i===0?'今天 ':i===1?'明天 ':'') + (d.getMonth()+1) + '/' + d.getDate() + '（' + WD[d.getDay()] + '）</option>';
+    o += '<option value="' + s + '">' + (EN() ? (i===0?'Today ':i===1?'Tomorrow ':'') + wd(d.getDay()) + ' ' + (d.getMonth()+1) + '/' + d.getDate() : dayLabelZh(s)) + '</option>';
   }
   $('day').innerHTML = o;
   if (keep && [].some.call($('day').options, function(x){ return x.value===keep; })) $('day').value = keep;
@@ -531,9 +574,9 @@ function renderMode(){
   var m = mode(), d = S.delivery;
   $('deliveryFields').hidden = m === '自取';
   $('companyField').hidden = m !== '外送';
-  $('modeHint').textContent = m === '自取' ? '到店自取不限杯數。'
-    : m === '外送' ? d.baseKm + ' 公里內滿 $' + d.baseMin + '，每多 1 公里低消加 $' + d.stepPerKm + '；超過 ' + d.maxKm + ' 公里，建議來電確認。'
-    : S.groupLatest + ' 前送達，低消一樣依距離計算。';
+  $('modeHint').textContent = m === '自取' ? T('到店自取不限杯數。','Pickup has no minimum.')
+    : T(d.baseKm + ' 公里內滿 $' + d.baseMin + '，每多 1 公里低消加 $' + d.stepPerKm + '；超過 ' + d.maxKm + ' 公里，建議來電確認。',
+        'Minimum $' + d.baseMin + ' within ' + d.baseKm + ' km, +$' + d.stepPerKm + ' per extra km. Over ' + d.maxKm + ' km, please call us.');
   renderDays();
 }
 document.querySelectorAll('input[name=mode]').forEach(function(r){ r.addEventListener('change', function(){ renderMode(); refresh(); }); });
@@ -548,7 +591,7 @@ function refresh(){
   $('tot').textContent = money(total());
   $('meter').hidden = !min;
   $('meterFill').style.width = min ? Math.min(100, t/min*100) + '%' : '0';
-  $('need').textContent = min && t < min ? '外送還差 ' + money(min - t) : cups() + ' 杯・' + mode();
+  $('need').textContent = min && t < min ? T('外送還差 ','Delivery needs ') + money(min - t) + T('',' more') : T(cups() + ' 杯・' + mode(), cups() + (cups()===1?' cup':' cups') + ' · ' + (mode()==='自取' ? 'Pickup' : 'Delivery'));
   $('submitBtn').disabled = !!(min && t < min);
 }
 
@@ -560,24 +603,27 @@ function collect(){
     bags: bags(), bagFee: bagFee(),
     promo: deal ? deal.title : '', promoDetail: deal ? deal.detail : [], code: $('code').value.trim().toUpperCase(),
     items: cart.map(function(l){ return { name: l.name, opts: l.opts, qty: l.qty, unit: unitOfLine(l) }; }),
-    dist: m==='自取' ? '' : $('dist').options[$('dist').selectedIndex].text.replace(/（.*$/,''),
+    dist: m==='自取' ? '' : distLabel(+$('dist').value, 'zh'),
     company: m==='外送' ? $('company').value.trim() : '', addr: m==='自取' ? '' : $('addr').value.trim(),
     name: $('name').value.trim(), mobile: $('tel').value.trim(), landline: $('tel2').value.trim(),
-    day: $('day').value, dayLabel: $('day').value ? $('day').options[$('day').selectedIndex].text : '', time: $('time').value,
-    note: $('note').value.trim(), website: $('website').value };
+    day: $('day').value, dayLabel: $('day').value ? dayLabelZh($('day').value) : '', time: $('time').value,
+    dayLabelEn: $('day').value ? $('day').options[$('day').selectedIndex].text : '',
+    promoEn: deal ? deal.titleEn : '', promoDetailEn: deal ? deal.detailEn : [],
+    lang: LANG, note: $('note').value.trim(), website: $('website').value };
 }
 function validate(o){
-  if (!o.items.length) return '還沒有選飲料。';
-  if (!o.name) return '請填姓名。';
-  if (!o.mobile && !o.landline) return '請留一支電話，手機或市話都可以。';
-  if (o.mobile && !/^09\d{8}$/.test(o.mobile.replace(/[\s\-]/g,''))) return '手機號碼格式不對，請再確認一次（09 開頭共 10 碼）。';
-  if (o.landline && !/^0\d{7,9}$/.test(o.landline.split(/#|分機|轉|ext/i)[0].replace(/[\s\-()（）]/g,''))) return '市話格式不對，請加上區碼，例：02-2xxx-xxxx #123。';
+  if (!o.items.length) return T('還沒有選飲料。', 'Please add a drink first.');
+  if (!o.name) return T('請填姓名。', 'Please enter your name.');
+  if (!o.mobile && !o.landline) return T('請留一支電話，手機或市話都可以。', 'Please leave a phone number (mobile or landline).');
+  if (o.mobile && !/^09\d{8}$/.test(o.mobile.replace(/[\s\-]/g,''))) return T('手機號碼格式不對，請再確認一次（09 開頭共 10 碼）。', 'Mobile number looks wrong (Taiwan mobile: 10 digits starting with 09).');
+  if (o.landline && !/^0\d{7,9}$/.test(o.landline.split(/#|分機|轉|ext/i)[0].replace(/[\s\-()（）]/g,''))) return T('市話格式不對，請加上區碼，例：02-2xxx-xxxx #123。', 'Landline looks wrong — include the area code, e.g. 02-2xxx-xxxx #123.');
   o.tel = [o.mobile, o.landline].filter(Boolean).join(' ／ ');
-  if (!o.day || !o.time) return '這幾天沒有可預訂的時段，請直接打訂購專線。';
-  if (o.mode !== '自取' && !o.addr){ $('addr').focus(); return '外送要填地址。'; }
+  if (!o.day || !o.time) return T('這幾天沒有可預訂的時段，請直接打訂購專線。', 'No time slots available in the next few days — please call us.');
+  if (o.mode !== '自取' && !o.addr){ $('addr').focus(); return T('外送要填地址。', 'Please enter a delivery address.'); }
   return '';
 }
-function orderText(o, no){
+function orderText(o, no, lang){
+  if (lang === 'en') return orderTextEn(o, no);
   var L = ['【網站訂單】' + (no || ''), o.mode + '｜' + o.dayLabel + ' ' + o.time];
   if (o.company) L.push('公司：' + o.company);
   L.push('姓名：' + o.name + '　電話：' + o.tel);
@@ -594,14 +640,36 @@ function orderText(o, no){
   if (o.note) L.push('備註：' + o.note);
   return L.join('\n');
 }
+function orderTextEn(o, no){
+  var nm = function(x){ return S.en[x] || x; };
+  var L = ['Order ' + (no || ''), (o.mode==='自取' ? 'Pickup' : 'Delivery') + ' | ' + o.dayLabelEn + ' ' + o.time];
+  if (o.company) L.push('Company: ' + o.company);
+  L.push('Name: ' + o.name + '   Phone: ' + o.tel);
+  if (o.addr) L.push('Address: ' + o.addr + ' (' + distLabel(+$('dist').value, 'en') + ')');
+  L.push('—');
+  o.items.forEach(function(l){
+    var opts = l.opts.split('／').map(function(x){ return x.charAt(0)==='加' && S.en[x.slice(1)] ? '+ ' + S.en[x.slice(1)] : nm(x); }).join(' / ');
+    L.push(nm(l.name) + '  ' + opts, '  $' + l.unit + ' × ' + l.qty + ' = $' + l.unit*l.qty);
+  });
+  if (o.bags) L.push('Plastic bags ×' + o.bags + '  $' + o.bagFee);
+  L.push('—');
+  if (o.discount){
+    L.push('Drinks subtotal $' + o.subtotal, 'Discount: ' + o.promoEn + '  −$' + o.discount);
+    (o.promoDetailEn || []).forEach(function(d){ L.push('  ' + d); });
+  }
+  var n = o.items.reduce(function(s,l){ return s+l.qty; },0);
+  L.push(n + (n===1?' cup':' cups') + ', total $' + o.total);
+  if (o.note) L.push('Notes: ' + o.note);
+  return L.join('\n');
+}
 $('submitBtn').addEventListener('click', function(){
   var o = collect(), err = validate(o);
   $('formErr').hidden = !err; $('formErr').textContent = err;
   if (err){ $('formErr').scrollIntoView({block:'center'}); return; }
-  $('sheetBody').innerHTML = '<div class="confirm"><h3 id="sheetTitle">請確認訂單</h3>' +
-    '<p class="hint" style="margin:0 0 10px">杯數、甜度冰塊、時間和電話都對了再送出。</p><pre>' + esc(orderText(o)) + '</pre>' +
-    '<div style="display:flex;gap:10px;margin-top:16px"><button type="button" class="btn ghost" id="cfBack" style="flex:1">返回修改</button>' +
-    '<button type="button" class="btn leaf" id="cfGo" style="flex:2">確認送出</button></div></div>';
+  $('sheetBody').innerHTML = '<div class="confirm"><h3 id="sheetTitle">' + T('請確認訂單','Please check your order') + '</h3>' +
+    '<p class="hint" style="margin:0 0 10px">' + T('杯數、甜度冰塊、時間和電話都對了再送出。','Make sure the drinks, sweetness, ice, time and phone number are right.') + '</p><pre>' + esc(orderText(o, '', LANG)) + '</pre>' +
+    '<div style="display:flex;gap:10px;margin-top:16px"><button type="button" class="btn ghost" id="cfBack" style="flex:1">' + T('返回修改','Go back') + '</button>' +
+    '<button type="button" class="btn leaf" id="cfGo" style="flex:2">' + T('確認送出','Confirm order') + '</button></div></div>';
   $('sheetBody').onchange = null;
   $('mask').hidden = false; $('sheet').hidden = false;
   $('cfBack').onclick = closeSheet;
@@ -609,11 +677,12 @@ $('submitBtn').addEventListener('click', function(){
   $('cfGo').focus();
 });
 function sendOrder(o){
-  var btn = $('submitBtn'); btn.disabled = true; btn.textContent = '送出中…';
+  var btn = $('submitBtn'); btn.disabled = true; btn.textContent = T('送出中…','Sending…');
   var fail = function(msg){
-    btn.disabled = false; btn.textContent = '送出訂單';
+    btn.disabled = false; btn.textContent = T('送出訂單','Place order');
     $('formErr').hidden = false;
-    $('formErr').textContent = '訂單沒有送出：' + (msg || '網路不穩') + '。請再按一次，或打訂購專線 ' + S.phone + '。';
+    $('formErr').textContent = T('訂單沒有送出：' + (msg || '網路不穩') + '。請再按一次，或打訂購專線 ' + S.phone + '。',
+      'Order not sent' + (msg ? ' (' + msg + ')' : '') + '. Please try again, or call ' + S.phone + '.');
     $('formErr').scrollIntoView({block:'center'});
   };
   if (!S.orderEndpoint){ setTimeout(function(){ showDone(o, { ok:true, orderNo:'預覽-001', notified:false }); }, 400); return; }
@@ -625,14 +694,20 @@ function sendOrder(o){
 function showDone(o, r){
   var text = orderText(o, r.orderNo);
   $('bar').hidden = true;
-  $('app').innerHTML = '<div class="done"><div class="lbl">訂單編號</div><div class="no">' + esc(r.orderNo) + '</div>' +
+  $('app').innerHTML = '<div class="done"><div class="lbl">' + T('訂單編號','Order number') + '</div><div class="no">' + esc(r.orderNo) + '</div>' +
     (r.notified
-      ? '<p>店裡已經收到訂單。' + (o.mode==='自取' ? '請在 ' + esc(o.time) + ' 到店取餐。' : '會照時間送到。') + '要改單請打 ' + esc(S.phone) + '。</p>'
-      : '<p>還差一步：請按下面的按鈕，用 LINE 把訂單傳給店長，或直接打 ' + esc(S.phone) + '。</p>' +
-        '<a class="btn line block" href="https://line.me/R/msg/text/?' + encodeURIComponent(text) + '" target="_blank" rel="noopener">用 LINE 傳訂單給店長</a>') +
-    '<pre>' + esc(text) + '</pre><button type="button" class="btn ghost block" onclick="location.reload()">回到首頁</button></div>';
+      ? '<p>' + T('店裡已經收到訂單。' + (o.mode==='自取' ? '請在 ' + esc(o.time) + ' 到店取餐。' : '會照時間送到。') + '要改單請打 ' + esc(S.phone) + '。',
+          'We\'ve received your order. ' + (o.mode==='自取' ? 'Please pick it up at ' + esc(o.time) + '.' : 'We\'ll deliver it on time.') + ' To make changes, call ' + esc(S.phone) + '.') + '</p>'
+      : '<p>' + T('還差一步：請按下面的按鈕，用 LINE 把訂單傳給店長，或直接打 ' + esc(S.phone) + '。', 'One more step: tap the button below to send your order to us on LINE, or call ' + esc(S.phone) + '.') + '</p>' +
+        '<a class="btn line block" href="https://line.me/R/msg/text/?' + encodeURIComponent(text) + '" target="_blank" rel="noopener">' + T('用 LINE 傳訂單給店長','Send order on LINE') + '</a>') +
+    '<pre>' + esc(orderText(o, r.orderNo, LANG)) + '</pre><button type="button" class="btn ghost block" onclick="location.reload()">' + T('回到首頁','Back to home') + '</button></div>';
   window.scrollTo(0,0);
 }
 
-renderStatic(); renderDist(); renderMode(); refresh();
+$('langBtn').addEventListener('click', function(){
+  LANG = EN() ? 'zh' : 'en';
+  try { localStorage.setItem('lang', LANG); } catch(e){}
+  closeSheet(); applyStatic(); renderStatic(); renderDist(); renderMode(); refresh();
+});
+applyStatic(); renderStatic(); renderDist(); renderMode(); refresh();
 </script>
