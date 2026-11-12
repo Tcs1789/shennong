@@ -39,7 +39,7 @@ function submitOrder(o) {
     var orderNo = prefix + ('00' + (todayCount + 1)).slice(-3);
 
     var cups = o.items.reduce(function (s, l) { return s + l.qty; }, 0);
-    var itemsTxt = o.items.map(function (l) { return l.name + ' ×' + l.qty + '（' + l.opts + '）'; }).join('\n');
+    var itemsTxt = o.items.map(function (l) { return l.name + ' ×' + l.qty + '（' + l.opts + '）單價 $' + l.unit; }).join('\n');
     var notified = pushLine_(formatOrder_(o, orderNo));
 
     sheet.appendRow([orderNo, now, o.mode, o.day, o.time, o.name, "'" + o.tel, o.company, o.addr, o.dist,
@@ -71,7 +71,7 @@ function formatOrder_(o, no) {
   L.push('姓名：' + o.name, '電話：' + o.tel);
   if (o.addr) L.push('地址：' + o.addr + '（' + o.dist + '）');
   L.push('────────');
-  o.items.forEach(function (l) { L.push(l.name + ' ×' + l.qty + '\n　' + l.opts + '　$' + l.unit * l.qty); });
+  o.items.forEach(function (l) { L.push(l.name + ' ×' + l.qty + '\n　' + l.opts + '\n　單價 $' + l.unit + ' × ' + l.qty + ' = $' + l.unit * l.qty); });
   L.push('────────');
   if (o.discount) L.push('小計 $' + o.subtotal + '　' + (o.promo || '優惠') + ' −$' + o.discount);
   if (o.code) L.push('優惠碼：' + o.code);
