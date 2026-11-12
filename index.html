@@ -247,7 +247,7 @@ footer{padding-block:36px;text-align:center;color:var(--muted);font-size:12px;le
 <div class="mask" id="mask" hidden></div>
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle"><div class="sheet-in" id="sheetBody"></div></div>
 
-<script src="data.js"></script>
+<script>document.write('<script src="data.js?t=' + Date.now() + '"><\/script>');</script>
 <script>
 var S = window.SITE;
 var cart = [];
