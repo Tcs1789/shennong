@@ -14,7 +14,7 @@ window.SITE = {
   lineUrl: '',           // LINE 加好友連結（選填，例：https://line.me/ti/p/xxxx）
 
   // 訂單送到哪裡：Google Apps Script 部署後的網址（…/exec）。空白＝預覽模式，訂單不會送出
-  orderEndpoint: '',
+  orderEndpoint: 'https://script.google.com/macros/s/AKfycbzk2CTeRzCQkpwKTYddIx7swi7cGdcXuW6FDVyTdTAJFWwbbKmS1uHj9znbSvXQ5G1c/exec',
 
   // 公告：最新的放最上面，最多顯示 4 則
   news: [
