@@ -25,10 +25,19 @@ window.SITE = {
   // 公告：最新的放最上面，最多顯示 4 則
   // 日期還沒到的公告不會顯示，到了當天自動出現
   news: [
+    // 春節公休公告：開工日確定後，在 until 填開工前一天，並把 text 改成開工日期
+    { date: '2027-02-04', text: '春節公休中，開工日另行公告。祝大家新年快樂。',
+      en: 'Closed for the Lunar New Year. We will announce our reopening date soon. Happy New Year!' },
+    { date: '2027-01-29', until: '2027-02-03', text: '週年慶最後一段：1/30–2/3 原茶買一送一。2/3（三）是年前最後營業日，春節公休，開工日另行公告。',
+      en: 'Anniversary, final part: Jan 30–Feb 3, pure tea buy one get one free. Feb 3 is our last day before the Lunar New Year break.' },
+    { date: '2027-01-15', until: '2027-01-29', text: '週年慶第三段：1/18–1/29 前一天 18:00 前預購滿 10 杯，整筆 85 折。',
+      en: 'Anniversary, part three: Jan 18–29, order 10+ cups by 6 PM the day before for 15% off.' },
     { date: '2027-01-03', until: '2027-01-16', text: '週年慶第二段：1/4–1/16 鮮奶茶第二杯半價，可混搭，每單最多 5 杯半價。',
       en: 'Anniversary, part two: Jan 4–16, fresh milk tea 2nd cup half price. Mix and match, up to 5 per order.' },
-    { date: '2026-12-14', until: '2027-01-02', text: '週年慶：12/21–1/2 原茶買一送一；1/4–1/16 鮮奶茶第二杯半價。同系列可混搭，自取、外送都適用。',
-      en: 'Anniversary: Dec 21–Jan 2, pure tea buy one get one free; Jan 4–16, fresh milk tea 2nd cup half price. Mix within the series, pickup or delivery.' },
+    { date: '2026-12-28', until: '2027-01-01', text: '1/1（五）元旦公休一天，1/2（六）照常營業。',
+      en: 'Closed on Jan 1 (Fri). Open as usual on Jan 2.' },
+    { date: '2026-12-14', until: '2027-01-02', text: '週年慶 12/21–2/3：12/21–1/2 原茶買一送一；1/4–1/16 鮮奶茶第二杯半價；1/18–1/29 預購 10 杯 85 折；1/30–2/3 原茶買一送一。',
+      en: 'Anniversary, Dec 21–Feb 3: pure tea BOGO (Dec 21–Jan 2), fresh milk tea 2nd cup half price (Jan 4–16), pre-order 10+ cups 15% off (Jan 18–29), pure tea BOGO again (Jan 30–Feb 3).' },
     { date: '2026-11-21', until: '2026-12-19', text: '每週優惠（至 12/19）：週一、四第二杯半價；週二、三、五滿 $300 折 $30。',
       en: 'Weekly deals (until 12/19): Mon & Thu, 2nd cup half price; Tue, Wed & Fri, $30 off orders of $300+.' },
     { date: '2026-11-12', text: '週一、週四第二杯半價，活動到 12/19：同一筆訂單每兩杯，較便宜的那杯半價。', until: '2026-11-20',
@@ -45,6 +54,12 @@ window.SITE = {
   daysAhead: 6,          // 可以預訂幾天後
   groupLatest: '14:30',  // 團購／下午茶最晚送達時間
   delivery: { baseKm: 2, baseMin: 300, stepPerKm: 100, maxKm: 4 }, // 2 公里內滿 300，每多 1 公里低消 +100；超過 maxKm 不設低消，建議來電確認
+  // 公休日：網站不能選這些天取貨／外送。單一天寫日期；連續幾天寫 { start, end }，end 空著表示「還沒決定哪天開工」
+  closed: [
+    '2027-01-01',
+    { start: '2027-02-04', end: '' },   // 春節公休，開工日確定後填 end（例：'2027-02-10'）
+  ],
+
   preorder: { cups: 10, cutoff: '18:00', rate: 0.9 },              // 前一天 18:00 前預購滿 10 杯打 9 折
 
   // 促銷活動：日期到了自動上架、過期自動下架。整筆優惠（第二杯半價、滿額折、優惠碼、預購 9 折）擇一，自動選最划算的
@@ -53,6 +68,7 @@ window.SITE = {
   //               second-half 和 bogo 都可加 cat: '原茶' 限定品類、max: 5 每單最多幾杯
   //   item-price  指定品項特價，例：items: {'紅玉鮮奶茶': 60}；或整類折價，例：cat: '鮮奶茶', off: 10
   //   spend-off   滿額折，例：min: 500, off: 50
+  //   preorder    指定期間預購折扣改成別的折數，例：rate: 0.85（以取貨日計算）
   //   code        優惠碼，例：code: 'FACTORY', rate: 0.95（不會顯示在首頁）
   //   days 可限定星期幾（0=週日），start / end 是開始和結束日期（含當天）
   promos: [
@@ -66,13 +82,19 @@ window.SITE = {
     { title: '週二、三、五 滿 $300 折 $30', type: 'spend-off', min: 300, off: 30, days: [2, 3, 5], start: '2026-11-21', end: '2026-12-19',
       note: '飲料金額滿 $300 折 $30。',
       en: { title: 'Tue, Wed & Fri: $30 off $300+', note: '$30 off when your drinks total $300 or more.' } },
-    // 週年慶（耶誕＋跨年起跑；期間不與每週優惠併用，所以每週優惠 12/19 結束）
+    // 週年慶 12/21–2/3（期間不與每週優惠併用，所以每週優惠 12/19 結束）
     { title: '週年慶｜原茶買一送一', type: 'bogo', cat: '原茶', max: 5, start: '2026-12-21', end: '2027-01-02',
       note: '原茶可混搭，每兩杯送價格較低的那杯，每單最多送 5 杯。',
       en: { title: 'Anniversary: Pure tea, buy one get one free', note: 'Mix any pure teas. In every two cups, the cheaper one is free (up to 5 free per order).' } },
     { title: '週年慶｜鮮奶茶第二杯半價', type: 'second-half', cat: '鮮奶茶', max: 5, start: '2027-01-04', end: '2027-01-16',
       note: '鮮奶茶可混搭，每兩杯較便宜的那杯半價，每單最多 5 杯半價。',
-      en: { title: 'Anniversary: Fresh milk tea, 2nd cup half price', note: 'Mix any fresh milk teas. In every two cups, the cheaper one is half price (up to 5 per order).' } }
+      en: { title: 'Anniversary: Fresh milk tea, 2nd cup half price', note: 'Mix any fresh milk teas. In every two cups, the cheaper one is half price (up to 5 per order).' } },
+    { title: '週年慶｜預購 10 杯 85 折', type: 'preorder', rate: 0.85, start: '2027-01-18', end: '2027-01-29',
+      note: '前一天 18:00 前預購滿 10 杯，整筆 85 折（平常 9 折）。',
+      en: { title: 'Anniversary: Pre-order 10+ cups, 15% off', note: 'Order 10+ cups by 6 PM the day before: 15% off the whole order (usually 10%).' } },
+    { title: '週年慶｜原茶買一送一 再一次', type: 'bogo', cat: '原茶', max: 5, start: '2027-01-30', end: '2027-02-03',
+      note: '原茶可混搭，每兩杯送價格較低的那杯，每單最多送 5 杯。',
+      en: { title: 'Anniversary: Pure tea BOGO is back', note: 'Mix any pure teas. In every two cups, the cheaper one is free (up to 5 free per order).' } }
   ],
 
   // 英文名稱對照：新增品項時，在這裡加一行英文名（沒加的會顯示中文）

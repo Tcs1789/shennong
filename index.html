@@ -309,6 +309,7 @@ function renderStatic(){
   $('telBtn').textContent = T('訂購專線 ', 'Call ') + S.phone;
   $('telBtn').href = 'tel:' + S.phone.replace(/\D/g,'');
   var d = new Date(), h = S.hours[d.getDay()], now = d.getHours()*60 + d.getMinutes();
+  if (isClosed(ymd(d))) h = null;
   var on = h && now >= toMin(h[0]) && now < toMin(h[1]);
   $('openState').classList.toggle('on', !!on);
   $('openState').lastChild.textContent = on ? T('營業中・今天到 ', 'Open now · until ') + h[1] : h ? T('今天 ', 'Today ') + h[0] + '–' + h[1] : T('今天公休', 'Closed today');
@@ -336,8 +337,8 @@ function renderStatic(){
   $('rules').innerHTML = [
     [T('外送','Delivery'), T(dl.baseKm + ' 公里內滿 $' + dl.baseMin + ' 外送，每多 1 公里低消加 $' + dl.stepPerKm + '（以飲料原價計算）。超過 ' + dl.maxKm + ' 公里，建議來電確認（' + S.phone + '）。',
       'Minimum $' + dl.baseMin + ' within ' + dl.baseKm + ' km, +$' + dl.stepPerKm + ' for each extra km (counted at full price). Over ' + dl.maxKm + ' km, please call us (' + S.phone + ').')],
-    [T('預購','Pre-order'), T('前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯，整筆打 9 折，網站下單自動計算。',
-      'Order ' + p.cups + '+ cups by ' + p.cutoff + ' the day before and get 10% off — applied automatically.')],
+    [T('預購','Pre-order'), T('前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯，整筆打 ' + zhZhe(p.rate) + '，網站下單自動計算。',
+      'Order ' + p.cups + '+ cups by ' + p.cutoff + ' the day before and get ' + enOff(p.rate) + ' — applied automatically.')],
     [T('自取','Pickup'), T('不限杯數，選好時間到店直接取。', 'No minimum. Pick a time and collect at the shop.')]
   ].map(function(r){ return '<div class="rule"><b>' + r[0] + '</b><div>' + esc(r[1]) + '</div></div>'; }).join('');
 
@@ -443,6 +444,10 @@ function promoOn(p, ds){
   if (p.days && p.days.indexOf(new Date(ds + 'T00:00:00').getDay()) < 0) return false;
   return true;
 }
+function isClosed(ds){ return (S.closed || []).some(function(c){ return typeof c === 'string' ? c === ds : ds >= c.start && (!c.end || ds <= c.end); }); }
+function preRate(ds){ var r = S.preorder.rate; activePromos(ds).forEach(function(p){ if (p.type === 'preorder') r = Math.min(r, p.rate); }); return r; }
+function zhZhe(rate){ var r = Math.round(rate*100); return (r % 10 ? r : r/10) + ' 折'; }
+function enOff(rate){ return (100 - Math.round(rate*100)) + '% off'; }
 function activePromos(ds){ return (S.promos || []).filter(function(p){ return promoOn(p, ds); }); }
 function salePrice(name, base, ds){
   var best = base;
@@ -463,9 +468,10 @@ function bestDeal(){
   var ds = orderDay(), sub = subtotal(), n = cups(), code = ($('code') ? $('code').value : '').trim().toUpperCase();
   var deals = [];
   var pctOff = function(rate){ return Math.round(sub * (1 - rate)); };
-  var pctDetail = function(rate){ return ['全部 ' + n + ' 杯 $' + sub + ' × ' + Math.round(rate*100)/10 + ' 折'] ; };
+  var pctDetail = function(rate){ return ['全部 ' + n + ' 杯 $' + sub + ' × ' + zhZhe(rate)] ; };
   var pctDetailEn = function(rate){ return ['All ' + n + ' cups $' + sub + ' × ' + Math.round(rate*100) + '%'] ; };
-  if (preorderOk()) deals.push({ title: '預購滿 ' + S.preorder.cups + ' 杯 9 折', titleEn: 'Pre-order ' + S.preorder.cups + '+ cups: 10% off', off: pctOff(S.preorder.rate), detail: pctDetail(S.preorder.rate), detailEn: pctDetailEn(S.preorder.rate) });
+  var pr = preRate(ds);
+  if (preorderOk()) deals.push({ title: '預購滿 ' + S.preorder.cups + ' 杯 ' + zhZhe(pr), titleEn: 'Pre-order ' + S.preorder.cups + '+ cups: ' + enOff(pr), off: pctOff(pr), detail: pctDetail(pr), detailEn: pctDetailEn(pr) });
   activePromos(ds).forEach(function(p){
     var off = 0, detail = [], detailEn = [];
     if (p.type === 'second-half' || p.type === 'bogo'){
@@ -524,8 +530,8 @@ function renderLines(){
   (bags() ? '<div class="li"><div class="d">' + T('塑膠袋 ×','Plastic bags ×') + bags() + '</div><div class="p">' + money(bagFee()) + '</div></div>' : '') +
   '<div class="li"><div class="d"><b>' + T('共 ' + cups() + ' 杯', cups() + (cups()===1 ? ' cup' : ' cups')) + '</b></div><div class="p"><b>' + money(total()) + '</b></div></div>' +
   (discount() ? '<div class="hint">' + T('整筆優惠擇一，已自動幫你選最划算的。','One discount per order — the best one is applied automatically.') + '</div>' : '') +
-  (!discount() ? '<div class="hint">' + T('前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯打 9 折' + (cups() >= p.cups ? '，日期選明天以後就有折扣。' : '。'),
-     'Order ' + p.cups + '+ cups by ' + p.cutoff + ' the day before for 10% off' + (cups() >= p.cups ? ' — pick tomorrow or later to get it.' : '.')) + '</div>' : '');
+  (!discount() ? '<div class="hint">' + T('前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯打 ' + zhZhe(preRate(orderDay())) + (cups() >= p.cups ? '，日期選明天以後就有折扣。' : '。'),
+     'Order ' + p.cups + '+ cups by ' + p.cutoff + ' the day before for ' + enOff(preRate(orderDay())) + (cups() >= p.cups ? ' — pick tomorrow or later to get it.' : '.')) + '</div>' : '');
 }
 $('bags').addEventListener('input', refresh);
 $('bMinus').addEventListener('click', function(){ $('bags').value = Math.max(0, bags()-1); refresh(); });
@@ -550,6 +556,7 @@ function renderDist(){
   if (keep) $('dist').value = keep;
 }
 function slotsFor(ds){
+  if (isClosed(ds)) return [];
   var d = new Date(ds + 'T00:00:00'), h = S.hours[d.getDay()];
   if (!h) return [];
   var start = toMin(h[0]) + 30, end = toMin(h[1]);
