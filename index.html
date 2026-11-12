@@ -333,8 +333,8 @@ function renderStatic(){
   }).join('');
   var dl = S.delivery, p = S.preorder;
   $('rules').innerHTML = [
-    [T('外送','Delivery'), T(dl.baseKm + ' 公里內滿 $' + dl.baseMin + ' 外送，每多 1 公里低消加 $' + dl.stepPerKm + '（以優惠前的飲料金額計算）。超過 ' + dl.maxKm + ' 公里，建議來電確認（' + S.phone + '）。',
-      'Minimum $' + dl.baseMin + ' within ' + dl.baseKm + ' km, +$' + dl.stepPerKm + ' for each extra km (counted before discounts). Over ' + dl.maxKm + ' km, please call us (' + S.phone + ').')],
+    [T('外送','Delivery'), T(dl.baseKm + ' 公里內滿 $' + dl.baseMin + ' 外送，每多 1 公里低消加 $' + dl.stepPerKm + '（以飲料原價計算）。超過 ' + dl.maxKm + ' 公里，建議來電確認（' + S.phone + '）。',
+      'Minimum $' + dl.baseMin + ' within ' + dl.baseKm + ' km, +$' + dl.stepPerKm + ' for each extra km (counted at full price). Over ' + dl.maxKm + ' km, please call us (' + S.phone + ').')],
     [T('預購','Pre-order'), T('前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯，整筆打 9 折，網站下單自動計算。',
       'Order ' + p.cups + '+ cups by ' + p.cutoff + ' the day before and get 10% off — applied automatically.')],
     [T('自取','Pickup'), T('不限杯數，選好時間到店直接取。', 'No minimum. Pick a time and collect at the shop.')]
@@ -488,6 +488,7 @@ function bestDeal(){
 
 /* ---------- money ---------- */
 function subtotal(){ return cart.reduce(function(s,l){ return s + unitOfLine(l)*l.qty; }, 0); }
+function listSubtotal(){ return cart.reduce(function(s,l){ return s + (l.base + l.tops)*l.qty; }, 0); }  // 原價（不含任何優惠）
 function cups(){ return cart.reduce(function(s,l){ return s + l.qty; }, 0); }
 function preorderOk(){
   var p = S.preorder, day = $('day').value;
@@ -574,8 +575,8 @@ function renderMode(){
   $('deliveryFields').hidden = m === '自取';
   $('companyField').hidden = m !== '外送';
   $('modeHint').textContent = m === '自取' ? T('到店自取不限杯數。','Pickup has no minimum.')
-    : T(d.baseKm + ' 公里內滿 $' + d.baseMin + '，每多 1 公里低消加 $' + d.stepPerKm + '（以優惠前金額計算）；超過 ' + d.maxKm + ' 公里，建議來電確認。',
-        'Minimum $' + d.baseMin + ' within ' + d.baseKm + ' km, +$' + d.stepPerKm + ' per extra km (before discounts). Over ' + d.maxKm + ' km, please call us.');
+    : T(d.baseKm + ' 公里內滿 $' + d.baseMin + '，每多 1 公里低消加 $' + d.stepPerKm + '（以原價計算）；超過 ' + d.maxKm + ' 公里，建議來電確認。',
+        'Minimum $' + d.baseMin + ' within ' + d.baseKm + ' km, +$' + d.stepPerKm + ' per extra km (at full price). Over ' + d.maxKm + ' km, please call us.');
   renderDays();
 }
 document.querySelectorAll('input[name=mode]').forEach(function(r){ r.addEventListener('change', function(){ renderMode(); refresh(); }); });
@@ -585,7 +586,7 @@ $('code').addEventListener('input', refresh);
 
 function refresh(){
   renderMenu(); renderLines();
-  var t = subtotal(), min = minOrder();  // 外送低消用整筆優惠前的飲料金額算
+  var t = listSubtotal(), min = minOrder();  // 外送低消一律用原價（任何優惠前）的飲料金額算
   $('bar').hidden = !cart.length;
   $('tot').textContent = money(total());
   $('meter').hidden = !min;
