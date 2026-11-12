@@ -82,18 +82,18 @@ window.SITE = {
       note: '飲料金額滿 $300 折 $30。',
       en: { title: 'Tue, Wed & Fri: $30 off $300+', note: '$30 off when your drinks total $300 or more.' } },
     // 週年慶 12/21–2/3（期間不與每週優惠併用，所以每週優惠 12/19 結束）
-    { title: '週年慶｜原茶買一送一', type: 'bogo', cat: '原茶', max: 5, start: '2026-12-21', end: '2027-01-02',
-      note: '原茶可混搭，每兩杯送價格較低的那杯，每單最多送 5 杯。',
-      en: { title: 'Anniversary: Pure tea, buy one get one free', note: 'Mix any pure teas. In every two cups, the cheaper one is free (up to 5 free per order).' } },
+    { title: '週年慶｜原茶買一送一', type: 'bogo', cat: '原茶', start: '2026-12-21', end: '2027-01-02',
+      note: '原茶可混搭，每兩杯送價格較低的那杯，不限杯數。',
+      en: { title: 'Anniversary: Pure tea, buy one get one free', note: 'Mix any pure teas. In every two cups, the cheaper one is free. No limit.' } },
     { title: '週年慶｜鮮奶茶第二杯半價', type: 'second-half', cat: '鮮奶茶', start: '2027-01-04', end: '2027-01-16',
       note: '鮮奶茶可混搭，每兩杯較便宜的那杯半價，不限杯數。',
       en: { title: 'Anniversary: Fresh milk tea, 2nd cup half price', note: 'Mix any fresh milk teas. In every two cups, the cheaper one is half price. No limit.' } },
     { title: '週年慶｜預購 10 杯 85 折', type: 'preorder', rate: 0.85, start: '2027-01-18', end: '2027-01-29',
       note: '前一天 18:00 前預購滿 10 杯，整筆 85 折（平常 9 折）。',
       en: { title: 'Anniversary: Pre-order 10+ cups, 15% off', note: 'Order 10+ cups by 6 PM the day before: 15% off the whole order (usually 10%).' } },
-    { title: '週年慶｜原茶買一送一 再一次', type: 'bogo', cat: '原茶', max: 5, start: '2027-01-30', end: '2027-02-03',
-      note: '原茶可混搭，每兩杯送價格較低的那杯，每單最多送 5 杯。',
-      en: { title: 'Anniversary: Pure tea BOGO is back', note: 'Mix any pure teas. In every two cups, the cheaper one is free (up to 5 free per order).' } }
+    { title: '週年慶｜原茶買一送一 再一次', type: 'bogo', cat: '原茶', start: '2027-01-30', end: '2027-02-03',
+      note: '原茶可混搭，每兩杯送價格較低的那杯，不限杯數。',
+      en: { title: 'Anniversary: Pure tea BOGO is back', note: 'Mix any pure teas. In every two cups, the cheaper one is free. No limit.' } }
   ],
 
   // 英文名稱對照：新增品項時，在這裡加一行英文名（沒加的會顯示中文）
