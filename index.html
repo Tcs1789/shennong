@@ -426,16 +426,25 @@ function unitOfLine(l){ return salePrice(l.name, l.base, orderDay()) + l.tops; }
 function bestDeal(){
   var ds = orderDay(), sub = subtotal(), n = cups(), code = ($('code') ? $('code').value : '').trim().toUpperCase();
   var deals = [];
-  if (preorderOk()) deals.push({ title: '預購滿 ' + S.preorder.cups + ' 杯 9 折', off: Math.round(sub * (1 - S.preorder.rate)) });
+  var pctOff = function(rate){ return Math.round(sub * (1 - rate)); };
+  var pctDetail = function(rate){ return ['全部 ' + n + ' 杯 $' + sub + ' × ' + Math.round(rate*100)/10 + ' 折'] ; };
+  if (preorderOk()) deals.push({ title: '預購滿 ' + S.preorder.cups + ' 杯 9 折', off: pctOff(S.preorder.rate), detail: pctDetail(S.preorder.rate) });
   activePromos(ds).forEach(function(p){
-    var off = 0;
+    var off = 0, detail = [];
     if (p.type === 'second-half'){
-      var u = []; cart.forEach(function(l){ for (var i = 0; i < l.qty; i++) u.push(unitOfLine(l)); });
-      u.sort(function(a,b){ return b-a; });
-      for (var i = 1; i < u.length; i += 2) off += Math.floor(u[i]/2);
-    } else if (p.type === 'spend-off' && sub >= p.min) off = p.off;
-    else if (p.type === 'code' && code && code === String(p.code).toUpperCase()) off = Math.round(sub * (1 - p.rate));
-    if (off > 0) deals.push({ title: p.title, off: off });
+      var u = []; cart.forEach(function(l){ for (var i = 0; i < l.qty; i++) u.push({ name: l.name, p: unitOfLine(l) }); });
+      u.sort(function(a,b){ return b.p - a.p; });
+      var agg = [], at = {};
+      for (var i = 1; i < u.length; i += 2){
+        var h = Math.floor(u[i].p/2), k = u[i].name + '|' + u[i].p;
+        off += h;
+        if (!at[k]){ at[k] = { name: u[i].name, p: u[i].p, h: h, c: 0 }; agg.push(at[k]); }
+        at[k].c++;
+      }
+      detail = agg.map(function(a){ return a.name + '（$' + a.p + '）半價 ×' + a.c + ' 杯　−$' + a.h*a.c; });
+    } else if (p.type === 'spend-off' && sub >= p.min){ off = p.off; detail = ['滿 $' + p.min + ' 折 $' + p.off]; }
+    else if (p.type === 'code' && code && code === String(p.code).toUpperCase()){ off = pctOff(p.rate); detail = pctDetail(p.rate); }
+    if (off > 0) deals.push({ title: p.title, off: off, detail: detail });
   });
   return deals.sort(function(a,b){ return b.off - a.off; })[0] || null;
 }
@@ -465,7 +474,7 @@ function renderLines(){
     return '<div class="li"><div class="d">' + esc(l.name) + ' ×<input class="lq" type="number" inputmode="numeric" min="0" max="99" value="' + l.qty + '" data-i="' + i + '" aria-label="' + esc(l.name) + ' 數量">' + '<div class="o">' + esc(l.opts) + '　單價 ' + money(unitOfLine(l)) + '</div></div>' +
       '<div class="p">' + money(unitOfLine(l)*l.qty) + '</div><button type="button" class="x" data-i="' + i + '">移除</button></div>';
   }).join('') +
-  (discount() ? '<div class="li"><div class="d">優惠：' + esc(bestDeal().title) + '</div><div class="p">−' + money(discount()) + '</div></div>' : '') +
+  (discount() ? '<div class="li"><div class="d">優惠：' + esc(bestDeal().title) + '<div class="o">' + bestDeal().detail.map(esc).join('<br>') + '</div></div><div class="p">−' + money(discount()) + '</div></div>' : '') +
   '<div class="li"><div class="d"><b>共 ' + cups() + ' 杯</b></div><div class="p"><b>' + money(total()) + '</b></div></div>' +
   (discount() ? '<div class="hint">整筆優惠擇一，已自動幫你選最划算的。</div>' : '') +
   (!discount() ? '<div class="hint">前一天 ' + p.cutoff + ' 前預購滿 ' + p.cups + ' 杯打 9 折' + (cups() >= p.cups ? '，日期選明天以後就有折扣。' : '。') + '</div>' : '');
@@ -540,7 +549,7 @@ function collect(){
   var m = mode();
   var deal = bestDeal();
   return { type: 'order', mode: m, subtotal: subtotal(), discount: discount(), total: total(),
-    promo: deal ? deal.title : '', code: $('code').value.trim().toUpperCase(),
+    promo: deal ? deal.title : '', promoDetail: deal ? deal.detail : [], code: $('code').value.trim().toUpperCase(),
     items: cart.map(function(l){ return { name: l.name, opts: l.opts, qty: l.qty, unit: unitOfLine(l) }; }),
     dist: m==='自取' ? '' : $('dist').options[$('dist').selectedIndex].text.replace(/（.*$/,''),
     company: m==='團購' ? $('company').value.trim() : '', addr: m==='自取' ? '' : $('addr').value.trim(),
@@ -567,7 +576,10 @@ function orderText(o, no){
   L.push('—');
   o.items.forEach(function(l){ L.push(l.name + '　' + l.opts, '　單價 $' + l.unit + ' × ' + l.qty + ' 杯 = $' + l.unit*l.qty); });
   L.push('—');
-  if (o.discount) L.push('小計 $' + o.subtotal + '，' + o.promo + ' −$' + o.discount);
+  if (o.discount){
+    L.push('小計 $' + o.subtotal, '優惠：' + o.promo + '　−$' + o.discount);
+    (o.promoDetail || []).forEach(function(d){ L.push('　' + d); });
+  }
   L.push('共 ' + o.items.reduce(function(s,l){ return s+l.qty; },0) + ' 杯，合計 $' + o.total);
   if (o.note) L.push('備註：' + o.note);
   return L.join('\n');

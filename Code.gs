@@ -73,7 +73,10 @@ function formatOrder_(o, no) {
   L.push('────────');
   o.items.forEach(function (l) { L.push(l.name + ' ×' + l.qty + '\n　' + l.opts + '\n　單價 $' + l.unit + ' × ' + l.qty + ' = $' + l.unit * l.qty); });
   L.push('────────');
-  if (o.discount) L.push('小計 $' + o.subtotal + '　' + (o.promo || '優惠') + ' −$' + o.discount);
+  if (o.discount) {
+    L.push('小計 $' + o.subtotal, '優惠：' + (o.promo || '優惠') + '　−$' + o.discount);
+    (Array.isArray(o.promoDetail) ? o.promoDetail : []).slice(0, 30).forEach(function (d) { L.push('　' + String(d).slice(0, 80)); });
+  }
   if (o.code) L.push('優惠碼：' + o.code);
   L.push('共 ' + o.items.reduce(function (s, l) { return s + l.qty; }, 0) + ' 杯　合計 $' + o.total);
   if (o.note) L.push('備註：' + o.note);
