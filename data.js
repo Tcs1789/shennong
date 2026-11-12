@@ -37,8 +37,8 @@ window.SITE = {
       en: 'Closed on Jan 1 (Fri). Open as usual on Jan 2.' },
     { date: '2026-12-14', until: '2027-01-02', text: '週年慶 12/21–2/3：12/21–1/2 原茶買一送一；1/4–1/16 鮮奶茶第二杯半價；1/18–1/29 預購 10 杯 85 折；1/30–2/3 原茶買一送一。',
       en: 'Anniversary, Dec 21–Feb 3: pure tea BOGO (Dec 21–Jan 2), fresh milk tea 2nd cup half price (Jan 4–16), pre-order 10+ cups 15% off (Jan 18–29), pure tea BOGO again (Jan 30–Feb 3).' },
-    { date: '2026-11-21', until: '2026-12-19', text: '每週優惠（至 12/19）：週一、四第二杯半價；週二、三、五滿 $300 折 $30。',
-      en: 'Weekly deals (until 12/19): Mon & Thu, 2nd cup half price; Tue, Wed & Fri, $30 off orders of $300+.' },
+    { date: '2026-11-21', until: '2026-12-19', text: '週一、四第二杯半價（11/21–12/19）：同一筆訂單每兩杯，較便宜的那杯半價。',
+      en: 'Mon & Thu, 2nd cup half price (Nov 21–Dec 19): in each order, every second (cheaper) cup is half price.' },
     { date: '2026-11-12', text: '開放線上訂購：自取、外送都能在網站上下單。',
       en: 'Online ordering is open: order here for pickup or delivery.' },
     { date: '2026-11-12', text: '前一天 18:00 前預購滿 10 杯，整筆打 9 折。',
@@ -75,11 +75,7 @@ window.SITE = {
     { title: '鮮奶茶雙週 每杯折 10 元', type: 'item-price', cat: '鮮奶茶', off: 10, start: '2026-10-28', end: '2026-11-10',
       note: '鮮奶茶全品項，紅玉鮮奶茶 60、桂妃鮮奶茶 55。',
       en: { title: 'Fresh milk tea: $10 off each', note: 'All fresh milk teas.' } },
-    // 週二、三、五 滿 300 折 30
-    { title: '週二、三、五 滿 $300 折 $30', type: 'spend-off', min: 300, off: 30, days: [2, 3, 5], start: '2026-11-21', end: '2026-12-19',
-      note: '飲料金額滿 $300 折 $30。',
-      en: { title: 'Tue, Wed & Fri: $30 off $300+', note: '$30 off when your drinks total $300 or more.' } },
-    // 週年慶 12/21–2/3（期間不與每週優惠併用，所以每週優惠 12/19 結束）
+    // 週年慶 12/21–2/3（期間不與每週優惠併用，所以週一四半價 12/19 結束）
     { title: '週年慶｜原茶買一送一', type: 'bogo', cat: '原茶', start: '2026-12-21', end: '2027-01-02',
       note: '原茶可混搭，每兩杯送價格較低的那杯，不限杯數。',
       en: { title: 'Anniversary: Pure tea, buy one get one free', note: 'Mix any pure teas. In every two cups, the cheaper one is free. No limit.' } },
