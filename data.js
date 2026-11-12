@@ -39,9 +39,9 @@ window.SITE = {
       en: 'Anniversary, Dec 21–Feb 3: pure tea BOGO (Dec 21–Jan 2), fresh milk tea 2nd cup half price (Jan 4–16), pre-order 10+ cups 15% off (Jan 18–29), pure tea BOGO again (Jan 30–Feb 3).' },
     { date: '2026-11-21', until: '2026-12-19', text: '每週優惠（至 12/19）：週一、四第二杯半價；週二、三、五滿 $300 折 $30。',
       en: 'Weekly deals (until 12/19): Mon & Thu, 2nd cup half price; Tue, Wed & Fri, $30 off orders of $300+.' },
-    { date: '2026-10-28', text: '開放線上訂購：自取、外送都能在網站上下單。',
+    { date: '2026-11-12', text: '開放線上訂購：自取、外送都能在網站上下單。',
       en: 'Online ordering is open: order here for pickup or delivery.' },
-    { date: '2026-10-28', text: '前一天 18:00 前預購滿 10 杯，整筆打 9 折。',
+    { date: '2026-11-12', text: '前一天 18:00 前預購滿 10 杯，整筆打 9 折。',
       en: 'Order 10+ cups by 6 PM the day before and get 10% off the whole order.' },
   ],
 
