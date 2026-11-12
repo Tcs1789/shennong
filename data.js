@@ -24,8 +24,10 @@ window.SITE = {
 
   // 公告：最新的放最上面，最多顯示 4 則
   news: [
-    { date: '2026-11-12', text: '冬季品類輪替：11/16–11/29 特調茶、11/30–12/13 奶蓋、12/14–12/27 奶茶，每杯折 10 元。11/17 起週二、三、五滿 $300 折 $30。',
-      en: 'Winter rotation, $10 off each: specialty tea 11/16–11/29, milk foam tea 11/30–12/13, milk tea 12/14–12/27. From 11/17, $30 off orders of $300+ on Tue, Wed & Fri.' },
+    { date: '2026-11-12', text: '11/17 起週二、三、五滿 $300 折 $30。',
+      en: 'From 11/17: $30 off orders of $300+ on Tue, Wed & Fri.' },
+    { date: '2026-11-12', text: '冬季品類輪替，每杯折 10 元：11/16–11/29 特調茶、11/30–12/13 奶蓋、12/14–12/27 奶茶。',
+      en: 'Winter rotation, $10 off each: specialty tea 11/16–11/29, milk foam tea 11/30–12/13, milk tea 12/14–12/27.' },
     { date: '2026-11-12', text: '週一、週四第二杯半價，活動到 12/31：同一筆訂單每兩杯，較便宜的那杯半價。',
       en: 'Mon & Thu: 2nd cup half price until 12/31. In each order, every second (cheaper) cup is half price.' },
     { date: '2026-10-28', text: '開放線上訂購：自取、外送都能在網站上下單。',
