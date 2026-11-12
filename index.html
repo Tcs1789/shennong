@@ -462,7 +462,7 @@ function renderLines(){
   if (!cart.length){ $('lines').innerHTML = '<div class="empty">還沒有飲料。點上面的品項加入。</div>'; return; }
   var p = S.preorder;
   $('lines').innerHTML = cart.map(function(l,i){
-    return '<div class="li"><div class="d">' + esc(l.name) + ' ×<input class="lq" type="number" inputmode="numeric" min="0" max="99" value="' + l.qty + '" data-i="' + i + '" aria-label="' + esc(l.name) + ' 數量">' + '<div class="o">' + esc(l.opts) + '</div></div>' +
+    return '<div class="li"><div class="d">' + esc(l.name) + ' ×<input class="lq" type="number" inputmode="numeric" min="0" max="99" value="' + l.qty + '" data-i="' + i + '" aria-label="' + esc(l.name) + ' 數量">' + '<div class="o">' + esc(l.opts) + '　單價 ' + money(unitOfLine(l)) + '</div></div>' +
       '<div class="p">' + money(unitOfLine(l)*l.qty) + '</div><button type="button" class="x" data-i="' + i + '">移除</button></div>';
   }).join('') +
   (discount() ? '<div class="li"><div class="d">優惠：' + esc(bestDeal().title) + '</div><div class="p">−' + money(discount()) + '</div></div>' : '') +
@@ -565,7 +565,7 @@ function orderText(o, no){
   L.push('姓名：' + o.name + '　電話：' + o.tel);
   if (o.addr) L.push('地址：' + o.addr + '（' + o.dist + '）');
   L.push('—');
-  o.items.forEach(function(l){ L.push(l.name + ' ×' + l.qty + '　' + l.opts + '　$' + l.unit*l.qty); });
+  o.items.forEach(function(l){ L.push(l.name + '　' + l.opts, '　單價 $' + l.unit + ' × ' + l.qty + ' 杯 = $' + l.unit*l.qty); });
   L.push('—');
   if (o.discount) L.push('小計 $' + o.subtotal + '，' + o.promo + ' −$' + o.discount);
   L.push('共 ' + o.items.reduce(function(s,l){ return s+l.qty; },0) + ' 杯，合計 $' + o.total);
