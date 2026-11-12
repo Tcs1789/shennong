@@ -25,10 +25,14 @@ window.SITE = {
   // 公告：最新的放最上面，最多顯示 4 則
   // 日期還沒到的公告不會顯示，到了當天自動出現
   news: [
-    { date: '2026-11-21', text: '每週優惠（至 12/31）：週一、四第二杯半價；週二、三、五滿 $300 折 $30。',
-      en: 'Weekly deals (until 12/31): Mon & Thu, 2nd cup half price; Tue, Wed & Fri, $30 off orders of $300+.' },
-    { date: '2026-11-12', text: '週一、週四第二杯半價，活動到 12/31：同一筆訂單每兩杯，較便宜的那杯半價。', until: '2026-11-20',
-      en: 'Mon & Thu: 2nd cup half price until 12/31. In each order, every second (cheaper) cup is half price.' },
+    { date: '2027-01-10', until: '2027-01-23', text: '週年慶第二段：1/11–1/23 鮮奶茶第二杯半價，可混搭，每單最多 5 杯半價。',
+      en: 'Anniversary, part two: Jan 11–23, fresh milk tea 2nd cup half price. Mix and match, up to 5 per order.' },
+    { date: '2026-12-19', until: '2027-01-09', text: '週年慶：12/25–1/9 原茶買一送一；1/11–1/23 鮮奶茶第二杯半價。同系列可混搭，自取、外送都適用。',
+      en: 'Anniversary: Dec 25–Jan 9, pure tea buy one get one free; Jan 11–23, fresh milk tea 2nd cup half price. Mix within the series, pickup or delivery.' },
+    { date: '2026-11-21', until: '2026-12-24', text: '每週優惠（至 12/24）：週一、四第二杯半價；週二、三、五滿 $300 折 $30。',
+      en: 'Weekly deals (until 12/24): Mon & Thu, 2nd cup half price; Tue, Wed & Fri, $30 off orders of $300+.' },
+    { date: '2026-11-12', text: '週一、週四第二杯半價，活動到 12/24：同一筆訂單每兩杯，較便宜的那杯半價。', until: '2026-11-20',
+      en: 'Mon & Thu: 2nd cup half price until 12/24. In each order, every second (cheaper) cup is half price.' },
     { date: '2026-10-28', text: '開放線上訂購：自取、外送都能在網站上下單。',
       en: 'Online ordering is open: order here for pickup or delivery.' },
     { date: '2026-10-28', text: '前一天 18:00 前預購滿 10 杯，整筆打 9 折。',
@@ -45,21 +49,30 @@ window.SITE = {
 
   // 促銷活動：日期到了自動上架、過期自動下架。整筆優惠（第二杯半價、滿額折、優惠碼、預購 9 折）擇一，自動選最划算的
   //   second-half 第二杯半價（每兩杯，較便宜的那杯半價）
+  //   bogo        買一送一（每兩杯，較便宜的那杯免費）
+  //               second-half 和 bogo 都可加 cat: '原茶' 限定品類、max: 5 每單最多幾杯
   //   item-price  指定品項特價，例：items: {'紅玉鮮奶茶': 60}；或整類折價，例：cat: '鮮奶茶', off: 10
   //   spend-off   滿額折，例：min: 500, off: 50
   //   code        優惠碼，例：code: 'FACTORY', rate: 0.95（不會顯示在首頁）
   //   days 可限定星期幾（0=週日），start / end 是開始和結束日期（含當天）
   promos: [
-    { title: '週一、週四 第二杯半價', type: 'second-half', days: [1, 4], start: '2026-10-28', end: '2026-12-31',
+    { title: '週一、週四 第二杯半價', type: 'second-half', days: [1, 4], start: '2026-10-28', end: '2026-12-24',
       note: '同一筆訂單每兩杯，較便宜的那杯半價。',
       en: { title: 'Mon & Thu: 2nd cup half price', note: 'In each order, every second (cheaper) cup is half price.' } },
     { title: '鮮奶茶雙週 每杯折 10 元', type: 'item-price', cat: '鮮奶茶', off: 10, start: '2026-10-28', end: '2026-11-10',
       note: '鮮奶茶全品項，紅玉鮮奶茶 60、桂妃鮮奶茶 55。',
       en: { title: 'Fresh milk tea: $10 off each', note: 'All fresh milk teas.' } },
     // 週二、三、五 滿 300 折 30
-    { title: '週二、三、五 滿 $300 折 $30', type: 'spend-off', min: 300, off: 30, days: [2, 3, 5], start: '2026-11-21', end: '2026-12-31',
+    { title: '週二、三、五 滿 $300 折 $30', type: 'spend-off', min: 300, off: 30, days: [2, 3, 5], start: '2026-11-21', end: '2026-12-24',
       note: '飲料金額滿 $300 折 $30。',
-      en: { title: 'Tue, Wed & Fri: $30 off $300+', note: '$30 off when your drinks total $300 or more.' } }
+      en: { title: 'Tue, Wed & Fri: $30 off $300+', note: '$30 off when your drinks total $300 or more.' } },
+    // 週年慶（耶誕＋跨年起跑；期間不與每週優惠併用，所以每週優惠 12/24 結束）
+    { title: '週年慶｜原茶買一送一', type: 'bogo', cat: '原茶', max: 5, start: '2026-12-25', end: '2027-01-09',
+      note: '原茶可混搭，每兩杯送價格較低的那杯，每單最多送 5 杯。',
+      en: { title: 'Anniversary: Pure tea, buy one get one free', note: 'Mix any pure teas. In every two cups, the cheaper one is free (up to 5 free per order).' } },
+    { title: '週年慶｜鮮奶茶第二杯半價', type: 'second-half', cat: '鮮奶茶', max: 5, start: '2027-01-11', end: '2027-01-23',
+      note: '鮮奶茶可混搭，每兩杯較便宜的那杯半價，每單最多 5 杯半價。',
+      en: { title: 'Anniversary: Fresh milk tea, 2nd cup half price', note: 'Mix any fresh milk teas. In every two cups, the cheaper one is half price (up to 5 per order).' } }
   ],
 
   // 英文名稱對照：新增品項時，在這裡加一行英文名（沒加的會顯示中文）

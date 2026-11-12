@@ -468,18 +468,21 @@ function bestDeal(){
   if (preorderOk()) deals.push({ title: '預購滿 ' + S.preorder.cups + ' 杯 9 折', titleEn: 'Pre-order ' + S.preorder.cups + '+ cups: 10% off', off: pctOff(S.preorder.rate), detail: pctDetail(S.preorder.rate), detailEn: pctDetailEn(S.preorder.rate) });
   activePromos(ds).forEach(function(p){
     var off = 0, detail = [], detailEn = [];
-    if (p.type === 'second-half'){
-      var u = []; cart.forEach(function(l){ for (var i = 0; i < l.qty; i++) u.push({ name: l.name, p: unitOfLine(l) }); });
+    if (p.type === 'second-half' || p.type === 'bogo'){
+      // bogo＝買一送一（較便宜的那杯免費）；cat 限定品類；max 每單最多幾杯
+      var free = p.type === 'bogo', got = 0;
+      var u = []; cart.forEach(function(l){ if (p.cat && catOf(l.name) !== p.cat) return; for (var i = 0; i < l.qty; i++) u.push({ name: l.name, p: unitOfLine(l) }); });
       u.sort(function(a,b){ return b.p - a.p; });
       var agg = [], at = {};
       for (var i = 1; i < u.length; i += 2){
-        var h = Math.floor(u[i].p/2), k = u[i].name + '|' + u[i].p;
+        if (p.max && got >= p.max) break; got++;
+        var h = free ? u[i].p : Math.floor(u[i].p/2), k = u[i].name + '|' + u[i].p;
         off += h;
         if (!at[k]){ at[k] = { name: u[i].name, p: u[i].p, h: h, c: 0 }; agg.push(at[k]); }
         at[k].c++;
       }
-      detail = agg.map(function(a){ return a.name + '（$' + a.p + '）半價 ×' + a.c + ' 杯　−$' + a.h*a.c; });
-      detailEn = agg.map(function(a){ return (S.en[a.name] || a.name) + ' ($' + a.p + ') half price ×' + a.c + '  −$' + a.h*a.c; });
+      detail = agg.map(function(a){ return a.name + '（$' + a.p + '）' + (free ? '免費' : '半價') + ' ×' + a.c + ' 杯　−$' + a.h*a.c; });
+      detailEn = agg.map(function(a){ return (S.en[a.name] || a.name) + ' ($' + a.p + ') ' + (free ? 'free' : 'half price') + ' ×' + a.c + '  −$' + a.h*a.c; });
     } else if (p.type === 'spend-off' && sub >= p.min){ off = p.off; detail = ['滿 $' + p.min + ' 折 $' + p.off]; detailEn = ['$' + p.off + ' off orders over $' + p.min]; }
     else if (p.type === 'code' && code && code === String(p.code).toUpperCase()){ off = pctOff(p.rate); detail = pctDetail(p.rate); detailEn = pctDetailEn(p.rate); }
     if (off > 0) deals.push({ title: p.title, titleEn: p.en && p.en.title || p.title, off: off, detail: detail, detailEn: detailEn });
