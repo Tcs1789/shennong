@@ -29,7 +29,7 @@ window.SITE = {
   leadMinutes: 40,       // 當天訂單至少提前幾分鐘
   daysAhead: 6,          // 可以預訂幾天後
   groupLatest: '14:30',  // 團購／下午茶最晚送達時間
-  delivery: { baseKm: 2, baseMin: 300, stepPerKm: 100, maxKm: 4 }, // 2 公里內滿 300，每多 1 公里低消 +100；超過 maxKm 也能訂（低消再 +100，店家來電確認）
+  delivery: { baseKm: 2, baseMin: 300, stepPerKm: 100, maxKm: 4 }, // 2 公里內滿 300，每多 1 公里低消 +100；超過 maxKm 不設低消，建議來電確認
   preorder: { cups: 10, cutoff: '18:00', rate: 0.9 },              // 前一天 18:00 前預購滿 10 杯打 9 折
 
   // 促銷活動：日期到了自動上架、過期自動下架。整筆優惠（第二杯半價、滿額折、優惠碼、預購 9 折）擇一，自動選最划算的
