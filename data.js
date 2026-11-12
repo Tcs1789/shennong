@@ -56,16 +56,6 @@ window.SITE = {
     { title: '鮮奶茶雙週 每杯折 10 元', type: 'item-price', cat: '鮮奶茶', off: 10, start: '2026-10-28', end: '2026-11-10',
       note: '鮮奶茶全品項，紅玉鮮奶茶 60、桂妃鮮奶茶 55。',
       en: { title: 'Fresh milk tea: $10 off each', note: 'All fresh milk teas.' } },
-    // 本期推薦：整類每杯折 10 元，日期到了自動換下一類（網站只顯示當期）
-    { title: '本期推薦｜特調茶 每杯折 $10', type: 'item-price', cat: '特調茶', off: 10, start: '2026-11-21', end: '2026-12-04',
-      note: '特調茶全品項每杯折 10 元。',
-      en: { title: 'Featured: Specialty tea, $10 off each', note: 'All specialty teas, $10 off per cup.' } },
-    { title: '本期推薦｜奶蓋 每杯折 $10', type: 'item-price', cat: '奶蓋', off: 10, start: '2026-12-05', end: '2026-12-18',
-      note: '奶蓋全品項每杯折 10 元。',
-      en: { title: 'Featured: Milk foam tea, $10 off each', note: 'All milk foam teas, $10 off per cup.' } },
-    { title: '本期推薦｜奶茶 每杯折 $10', type: 'item-price', cat: '奶茶', off: 10, start: '2026-12-19', end: '2026-12-31',
-      note: '奶茶全品項每杯折 10 元。',
-      en: { title: 'Featured: Milk tea, $10 off each', note: 'All milk teas, $10 off per cup.' } },
     // 週二、三、五 滿 300 折 30
     { title: '週二、三、五 滿 $300 折 $30', type: 'spend-off', min: 300, off: 30, days: [2, 3, 5], start: '2026-11-21', end: '2026-12-31',
       note: '飲料金額滿 $300 折 $30。',
