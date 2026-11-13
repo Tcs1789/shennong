@@ -37,8 +37,8 @@ window.SITE = {
       en: 'Closed on Jan 1 (Fri). Open as usual on Jan 2.' },
     { date: '2026-12-14', until: '2027-01-02', text: '週年慶 12/21–2/3：12/21–1/2 原茶買一送一；1/4–1/16 鮮奶茶第二杯半價；1/18–1/29 預購 10 杯 85 折；1/30–2/3 原茶買一送一。',
       en: 'Anniversary, Dec 21–Feb 3: pure tea BOGO (Dec 21–Jan 2), fresh milk tea 2nd cup half price (Jan 4–16), pre-order 10+ cups 15% off (Jan 18–29), pure tea BOGO again (Jan 30–Feb 3).' },
-    { date: '2026-11-21', until: '2026-12-19', text: '週一、四第二杯半價（11/21–12/19）：同一筆訂單每兩杯，較便宜的那杯半價。',
-      en: 'Mon & Thu, 2nd cup half price (Nov 21–Dec 19): in each order, every second (cheaper) cup is half price.' },
+    { date: '2026-11-13', until: '2026-12-19', text: '週一、四第二杯半價（11/19–12/19）：同一筆訂單每兩杯，較便宜的那杯半價。',
+      en: 'Mon & Thu, 2nd cup half price (Nov 19–Dec 19): in each order, every second (cheaper) cup is half price.' },
     { date: '2026-11-12', text: '開放線上訂購：自取、外送都能在網站上下單。',
       en: 'Online ordering is open: order here for pickup or delivery.' },
     { date: '2026-11-12', text: '前一天 18:00 前預購滿 10 杯，整筆打 9 折。',
@@ -69,7 +69,7 @@ window.SITE = {
   //   code        優惠碼，例：code: 'FACTORY', rate: 0.95（不會顯示在首頁）
   //   days 可限定星期幾（0=週日），start / end 是開始和結束日期（含當天）
   promos: [
-    { title: '週一、週四 第二杯半價', type: 'second-half', days: [1, 4], start: '2026-11-21', end: '2026-12-19',
+    { title: '週一、週四 第二杯半價', type: 'second-half', days: [1, 4], start: '2026-11-19', end: '2026-12-19',
       note: '同一筆訂單每兩杯，較便宜的那杯半價。',
       en: { title: 'Mon & Thu: 2nd cup half price', note: 'In each order, every second (cheaper) cup is half price.' } },
     { title: '鮮奶茶雙週 每杯折 10 元', type: 'item-price', cat: '鮮奶茶', off: 10, start: '2026-10-28', end: '2026-11-10',
